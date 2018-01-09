@@ -1,0 +1,59 @@
+<h1>aggr models</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<p *ngIf="!aggrModels"><em>Loading...</em></p>
+<div class="btn-group">
+    <button class="btn btn-danger" (click)="addDummyData();">Add Dummy</button>
+    <button class="btn btn-success" (click)="refresh();">Reload</button>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class='table' *ngIf="aggrModels">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>CreatedBy</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let aggr of aggrModels">
+
+                    <td>{{ aggr.id }}</td>
+                    <td>{{ aggr.title }}</td>
+                    <td>{{ aggr.description }}</td>
+                    <td>{{ aggr.createdBy }}</td>
+                    <td>
+                    <td>
+                        <a class="btn btn-success" [routerLink]="['/aggrvalue',aggr.id]">Test Aggregation</a>
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+   </div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class='table table-bordered' *ngIf="logOutput">
+            <thead>
+                <tr>
+                    <th>Message</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let log of logOutput">
+                    <td><span style="color:{{ log.color }}">{{ log.message }}</span></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

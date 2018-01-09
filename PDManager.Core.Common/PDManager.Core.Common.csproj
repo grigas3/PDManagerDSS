@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\PDManager.Core.Common.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\Aggregators\**" />
+    <Compile Remove="Interfaces\Estimators\**" />
+    <EmbeddedResource Remove="Interfaces\Aggregators\**" />
+    <EmbeddedResource Remove="Interfaces\Estimators\**" />
+    <None Remove="Interfaces\Aggregators\**" />
+    <None Remove="Interfaces\Estimators\**" />
+  </ItemGroup>
+
+</Project>

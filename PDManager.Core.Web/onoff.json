@@ -1,0 +1,17 @@
+{
+	"AggregationType": "time",
+	"Code":"ONOFF",
+	"Name":"ONOFF",
+	"Version":"1.0",
+	"Variables": [{
+			"Uri": "api/observations",
+			"Code": "STBRADS30",
+			"Weight": 1.0
+		}, {
+			"Uri": "api/observations",
+			"Code": "STDYS30",
+			"Weight": -1.0
+		}
+	],
+	"Beta": 0.0
+}

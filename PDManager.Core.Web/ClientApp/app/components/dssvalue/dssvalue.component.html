@@ -1,0 +1,76 @@
+<div class="ui raised segment">
+
+    <div class="row">
+        <div class="col-sm-6 col-lg-4">
+            <div *ngIf="!dssConfig">
+                Loading...
+            </div>
+            <div *ngIf="dssConfig">
+                <h2 class="ui header">Demo {{dssConfig.name}} ({{dssConfig.version}})</h2>
+                <form #f="ngForm"
+                      (ngSubmit)="onSubmit(f.value)"
+                      class="ui form">
+
+                    <div *ngFor="let dss of dssConfig.input">
+                        <div class="form-group" *ngIf="dss.numeric;else categoricalTemplate">
+
+                            <label for="{{dss.name}}">{{dss.name}}</label>
+
+                            <input type="text" id="{{dss.name}}" name="{{dss.name}}" class="form-control" ngModel value="{{dss.value}}" />
+                        </div>
+                        <ng-template #categoricalTemplate>
+                            <div class="form-group">
+                                <label for="{{dss.name}}">{{dss.name}}</label>
+                                <select id="{{dss.name}}" name="{{dss.name}}" ngModel class="form-control">
+                                    <option *ngFor="let category of dss.categoryMapping" value="{{category.name}}">{{category.name}}</option>
+                                </select>
+                            </div>
+
+                        </ng-template>
+
+                    </div>
+
+
+
+
+                    <button type="submit" class="btn btn-success btn-lg">Submit</button>
+
+                    <button type="button" (click)="getData()" class="btn btn-warning btn-lg">Fetch Data From B3D</button>
+                </form>
+            </div>
+
+
+        </div>
+        <div class="col-sm-6 col-lg-8">
+
+            <h2 class="ui header">Output</h2>
+            <div *ngIf="!dssOutput">
+                Submit DSS to get the outpur
+            </div>
+
+            <table class='table' *ngIf="dssOutput">
+                <thead>
+                    <tr>
+                        <th>Output</th>
+                        <th>Value</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dss of dssOutput">
+
+                        <td>{{ dss.name }}</td>
+                        <td>{{ dss.value }}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+        
+        </div>
+
+        </div>
+   
+   
+
+    </div>
