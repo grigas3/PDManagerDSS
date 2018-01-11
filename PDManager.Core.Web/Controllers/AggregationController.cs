@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PDManager.Core.Aggregators.Testing;
 using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Web.Entities;
 using PDManager.Core.Web.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -168,26 +170,18 @@ namespace PDManager.Core.Web.Controllers
         private void AddDummyAggr(Context.DSSContext context)
         {
             string config = string.Empty;
-            try
-            {
-                config = System.IO.File.ReadAllText("onoff.json");
-
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Load Config file");
-            }
+           
             try
             {
 
-                context.Set<AggrModel>().Add(new AggrModel()
+                List<AggrModel> models = new List<AggrModel>()
+                {
+                new AggrModel()
                 {
 
-                    Name = "ONOFF",
+                    Name = "OFFTIME",
                     Description = "Dummy on off estimation",
-                    Code = "ONOFF",
-                    Config = config,
+                    Code = "STOFFDUR",
                     CreatedBy = "admin",
                     ModifiedBy = "admin",
                     ModifiedDate = DateTime.Now,
@@ -196,7 +190,49 @@ namespace PDManager.Core.Web.Controllers
                     Id = 1
 
 
-                });
+                },
+                   new AggrModel()
+                {
+
+                    Name = "UPDRS",
+                    Description = "Day (per 30 minute) UPDRS estimation",
+                    Code = "UPDRS",
+                    CreatedBy = "admin",
+                    ModifiedBy = "admin",
+                    ModifiedDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    Version = "1.0",
+                    Id = 2
+
+
+                },
+                     new AggrModel()
+                {
+
+                    Name = "STFLUCT",
+                    Description = "UPDRS IV Patient Fluctuation Score based on the MFI score",
+                    Code = "STFLUCT",
+                    CreatedBy = "admin",
+                    ModifiedBy = "admin",
+                    ModifiedDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    Version = "1.0",
+                    Id = 3
+
+
+                }
+                };
+
+
+                DummyAggrDefinitionProvider provider = new DummyAggrDefinitionProvider();
+
+                foreach(var model in models)
+                {
+
+                    model.Config = provider.GetJsonConfigFromCode(model.Code);
+                    context.Add(model);
+
+                }
 
                 context.SaveChanges();
 

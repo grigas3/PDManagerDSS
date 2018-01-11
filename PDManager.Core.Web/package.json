@@ -60,6 +60,8 @@
     "zone.js": "0.8.12"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "chart.js": "^2.7.1",
+    "lodash": "^4.17.4",
+    "ng2-charts": "^1.6.0"
   }
 }

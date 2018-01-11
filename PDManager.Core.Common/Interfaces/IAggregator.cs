@@ -17,8 +17,10 @@ namespace PDManager.Core.Common.Interfaces
         /// <param name="patientId">Patient Id</param>
         /// <param name="code">Meta Observation Code</param>
         /// <param name="lastExecutionTime">Last Execution time</param>
-        /// <returns></returns>
-        Task<IObservation> Run(string patientId, string code, DateTime? lastExecutionTime);
+        /// <param name="aggregationType"></param>
+        /// <param name="filterType"></param>
+        /// <returns>List of observations</returns>
+        Task<IEnumerable<IObservation>> Run(string patientId, string code, DateTime? lastExecutionTime,string aggregationType= null, string filterType = null);
 
     
     }

@@ -20,9 +20,9 @@ namespace PDManager.Core.DSS
         private readonly IAggregator _aggregator;
 
 
-        private const string ObservationType = "Observation";
-        private const string MetaObservationType = "MetaObservation";
-        private const string ClinicalInfoType = "Clinical";
+        private const string ObservationType = "observation";
+        private const string MetaObservationType = "metaobservation";
+        private const string ClinicalInfoType = "clinical";
         /// <summary>
         /// Constructor
         /// </summary>
@@ -144,6 +144,155 @@ namespace PDManager.Core.DSS
 
         }
         /// <summary>
+        /// Get Input Values for DSS model of specific patient
+        /// </summary>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="configJson">DSS Mapping file</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DSSValue>> GetInputValues(string patientId, string configJson)
+        {
+
+            List<DSSValue> values = new List<DSSValue>();
+            Dictionary<string, int> valueMapping = new Dictionary<string, int>();
+            var config = JsonConvert.DeserializeObject<DSSConfig>(configJson);
+
+
+
+            //  var accessToken = proxy.GetAccessToken("admin","newpass");//ConfigurationManager.AppSettings["B3NetProxyUserName"], ConfigurationManager.AppSettings["B3NetProxyPassword"]);
+
+            //Codes from observations
+            List<string> observationCodes = new List<string>();
+
+            //Codes from Meta o
+            List<string> metaObservationCodes = new List<string>();
+
+            //Codes from Patient Clinical Info
+            List<string> clinicalInfoCodes = new List<string>();
+
+            foreach (var c in config.Input)
+            {
+              
+
+                if(string.IsNullOrEmpty(c.Source))
+                {
+                    //TODO: Add some error to response
+                    continue;
+                }
+
+
+                if (c.Source.ToLower() == ObservationType)
+                {
+                    observationCodes.Add(c.Code);
+                }
+                else if (c.Source.ToLower() == MetaObservationType)
+                {
+                    metaObservationCodes.Add(c.Code);
+
+                }
+                else if (c.Source.ToLower() == ClinicalInfoType)
+                {
+                    clinicalInfoCodes.Add(c.Code);
+                }
+                else
+                {
+
+                    throw new NotSupportedException($"Source type {c.Source} not supported from PDManager DSS");
+
+                }
+            }
+
+            #region Observation Codes
+
+        
+            //TODO: Join observations codes in a single request in case 
+
+            foreach (var code in observationCodes)
+            {
+                try
+                {
+                    var observations = await _dataProxy.Get<PDObservation>(10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, code, DateTimeToUnixTimestamp(DateTime.Now.AddDays(-config.AggregationPeriodDays)), DateTimeToUnixTimestamp(DateTime.Now)), null);
+
+                    foreach (var c in observations)
+                    {
+                        
+                        foreach(var observation in config.Input.Where(e => e.Code == c.CodeId))
+                        {
+                            values.Add(new DSSValue() { Name = observation.Name, Code = observation.Code, Value = c.Value.ToString() });
+                            
+                        }
+                     
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+
+            #endregion Meta Observation Codes
+
+            #region Meta Observation Codes
+
+
+            foreach (var code in metaObservationCodes)
+            {
+                try
+                {
+                    //Get Aggregated observation
+                    var aggrObservation = await _aggregator.Run(patientId, code, DateTime.Now.AddDays(-config.AggregationPeriodDays));
+
+                    //Find Corresponding observation in config
+                    
+
+                    foreach(var metaObservation in config.Input.Where(e => e.Code == code))
+                    {
+                        //Meta Observations are only numeric
+                        values.Add(new DSSValue() { Name = metaObservation.Name, Code = metaObservation.Code,Value = aggrObservation.Select(e => e.Value).DefaultIfEmpty(0).Average().ToString() });
+                        
+                        
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            #endregion Observation Codes
+
+
+            #region Clinical Info
+
+            try
+            {
+                var patient = await _dataProxy.Get<PDPatient>(patientId);
+
+                var clinicalInfoList = GetClinicalInfoList(patient.ClinicalInfo);
+                foreach (var c in clinicalInfoList)
+                {
+                    var clinicalInfo = config.Input.FirstOrDefault(e => e.Code.ToLower() == c.Code.ToLower());
+
+                    if (clinicalInfo != null)
+                    {
+                       
+                            values.Add(new DSSValue() { Name = clinicalInfo.Name,Code = clinicalInfo.Code, Value = c.Value });
+                     
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            #endregion Clinical Info
+
+            return values;
+        }
+
+
+        /// <summary>
         /// Run DSS
         /// </summary>
         /// <param name="patientId">Patient Id</param>
@@ -200,11 +349,11 @@ namespace PDManager.Core.DSS
             var codes = string.Join(",", observationCodes);
             try
             {
-                var observations = await _dataProxy.Get<PDObservation>("api/observations",  10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, codes, DateTimeToUnixTimestamp(DateTime.Now.AddDays(-config.AggregationPeriodDays)), DateTimeToUnixTimestamp(DateTime.Now)), null);
+                var observations = await _dataProxy.Get<PDObservation>( 10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, codes, DateTimeToUnixTimestamp(DateTime.Now.AddDays(-config.AggregationPeriodDays)), DateTimeToUnixTimestamp(DateTime.Now)), null);
 
                 foreach (var c in observations)
                 {
-                    var observation = config.Input.FirstOrDefault(e => e.Code == c.CodeId);
+                    var observation = config.Input.FirstOrDefault(e => e.Code.ToLower() == c.CodeId.ToLower());
 
                     if (observation != null)
                     {
@@ -232,12 +381,12 @@ namespace PDManager.Core.DSS
                     var aggrObservation=await _aggregator.Run(patientId, code, DateTime.Now.AddDays(-config.AggregationPeriodDays));                   
 
                     //Find Corresponding observation in config
-                    var metaObservation = config.Input.FirstOrDefault(e => e.Code == aggrObservation.CodeId);
+                    var metaObservation = config.Input.FirstOrDefault(e => e.Code.ToLower() == code.ToLower());
 
                         if (metaObservation != null)
                         {
                             //Meta Observations are only numeric
-                            model.SetInputValue(metaObservation.Name, metaObservation.GetNumericMapping(aggrObservation.Value));
+                            model.SetInputValue(metaObservation.Name, metaObservation.GetNumericMapping(aggrObservation.Select(e=>e.Value).DefaultIfEmpty().Average()));
                         }
                    
                 }
@@ -254,12 +403,12 @@ namespace PDManager.Core.DSS
 
             try
             {
-                var patient = await _dataProxy.Get<PDPatient>("api/patients", patientId);
+                var patient = await _dataProxy.Get<PDPatient>(patientId);
 
                 var clinicalInfoList = GetClinicalInfoList(patient.ClinicalInfo);
                 foreach (var c in clinicalInfoList)
                 {
-                    var clinicalInfo = config.Input.FirstOrDefault(e => e.Code == c.Code);
+                    var clinicalInfo = config.Input.FirstOrDefault(e => e.Code.ToLower() == c.Code.ToLower());
 
                     if (clinicalInfo != null)
                     {

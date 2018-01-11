@@ -1,7 +1,7 @@
 <div class="ui raised segment">
 
     <div class="row">
-        <div class="col-sm-6 col-lg-4">
+        <div class="col-sm-12 col-lg-12">
             <div *ngIf="!aggrConfig">
                 Loading...
             </div>
@@ -10,7 +10,7 @@
 
 
                 <h5>Enter Patient Id</h5>
-                <input [(ngModel)]="patientId">               
+                <input [(ngModel)]="patientId">
 
 
                 <button type="button" (click)="execute()" class="btn btn-success btn-lg">Execute</button>
@@ -19,38 +19,56 @@
 
 
         </div>
-        <div class="col-sm-6 col-lg-8">
+    </div>
+    <div class="row">
+
+        <div class="col-sm-12 col-lg-12">
 
             <h2 class="ui header">Output</h2>
             <div *ngIf="!aggrOutput">
                 Submit Aggregation to get the outpur
-                </div>
-                <div *ngIf="aggrOutput">
-                    <div class="alert-info alert">
+            </div>
+            <div *ngIf="aggrOutput">
+                <div class="alert-info alert">
 
-                        <table class="tab-content table">
-                            <thead>
-                                <tr>
-                                    <th>Field</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Id</td><td>{{aggrOutput.id}}</td></tr>
-                                <tr><td>Patient Id</td><td>{{aggrOutput.patientId}}</td></tr>
-                                <tr><td>Code</td><td>{{aggrOutput.codeId}}</td></tr>
-                                <tr><td>Value</td><td>{{aggrOutput.value}}</td></tr>
-                                <tr><td>Timestamp</td><td>{{aggrOutput.timestamp}}</td></tr>
-                            </tbody>
-                        </table>
+                    <table class="tab-content table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let aggr of aggrOutput">
+                                <td>{{aggr.timestamp}}</td>
+                                <td>{{aggr.value}}</td>
 
-                    </div>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
+
+            </div>
+
+            <div *ngIf="aggrOutput">
+                <canvas baseChart width="400" height="400"
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions"
+                        [colors]="lineChartColors"
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
             </div>
 
         </div>
-   
-   
 
     </div>
+
+
+
+
+
+</div>

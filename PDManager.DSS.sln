@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDManager.Core.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDManager.Core.DSS", "PDManager.Core.DSS\PDManager.Core.DSS.csproj", "{95D52FEB-C081-4EF6-820C-29C18BD453A8}"
 EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "PDManagerDoc", "PDManagerDoc\PDManagerDoc.shfbproj", "{E78F7E2B-E859-4C02-A89D-3A04B04405B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{F584C2F2-22CF-4868-8861-54753D804BA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{94992334-6AA1-4D58-857B-3E906A6EF6E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDManager.Core.UnitTests", "PDManager.Core.UnitTests\PDManager.Core.UnitTests.csproj", "{AC66848D-D6BC-4B39-AB06-1EE7AD44D756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,32 +47,23 @@ Global
 		{95D52FEB-C081-4EF6-820C-29C18BD453A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95D52FEB-C081-4EF6-820C-29C18BD453A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95D52FEB-C081-4EF6-820C-29C18BD453A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E78F7E2B-E859-4C02-A89D-3A04B04405B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78F7E2B-E859-4C02-A89D-3A04B04405B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78F7E2B-E859-4C02-A89D-3A04B04405B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78F7E2B-E859-4C02-A89D-3A04B04405B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC66848D-D6BC-4B39-AB06-1EE7AD44D756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC66848D-D6BC-4B39-AB06-1EE7AD44D756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC66848D-D6BC-4B39-AB06-1EE7AD44D756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC66848D-D6BC-4B39-AB06-1EE7AD44D756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E78F7E2B-E859-4C02-A89D-3A04B04405B7} = {94992334-6AA1-4D58-857B-3E906A6EF6E8}
+		{AC66848D-D6BC-4B39-AB06-1EE7AD44D756} = {F584C2F2-22CF-4868-8861-54753D804BA0}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3C22563-7661-45F1-B1DE-646D63FF36B3}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://uoimedlab.visualstudio.com/
-		SccProjectUniqueName0 = PDManager.Core.Web\\PDManager.Core.Web.csproj
-		SccProjectName0 = PDManager.Core.Web
-		SccLocalPath0 = PDManager.Core.Web
-		SccLocalPath1 = .
-		SccProjectUniqueName2 = PDManager.Core.Aggregators\\PDManager.Core.Aggregators.csproj
-		SccProjectName2 = PDManager.Core.Aggregators
-		SccLocalPath2 = PDManager.Core.Aggregators
-		SccProjectUniqueName3 = PDManager.Core.Common\\PDManager.Core.Common.csproj
-		SccProjectName3 = PDManager.Core.Common
-		SccLocalPath3 = PDManager.Core.Common
-		SccProjectUniqueName4 = PDManager.Core.DSS\\PDManager.Core.DSS.csproj
-		SccProjectName4 = PDManager.Core.DSS
-		SccLocalPath4 = PDManager.Core.DSS
-		SccProjectUniqueName5 = PDManager.Core.Services\\PDManager.Core.Services.csproj
-		SccProjectName5 = PDManager.Core.Services
-		SccLocalPath5 = PDManager.Core.Services
 	EndGlobalSection
 EndGlobal

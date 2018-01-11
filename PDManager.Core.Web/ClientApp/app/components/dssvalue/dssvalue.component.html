@@ -7,35 +7,46 @@
             </div>
             <div *ngIf="dssConfig">
                 <h2 class="ui header">Demo {{dssConfig.name}} ({{dssConfig.version}})</h2>
+
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <button type="button" (click)="getData()" class="btn btn-warning ">Fetch Data From B3D</button>
+                    </div>
+                    <div class="input-group">
+                        <input [(ngModel)]="patientId" class="form-control">
+                    </div>
+                </div>
+             
                 <form #f="ngForm"
                       (ngSubmit)="onSubmit(f.value)"
                       class="ui form">
+                    <div *ngIf="dssInput">
+                        <div *ngFor="let dss of dssInput">
+                            <div class="form-group" *ngIf="dss.numeric;else categoricalTemplate">
 
-                    <div *ngFor="let dss of dssConfig.input">
-                        <div class="form-group" *ngIf="dss.numeric;else categoricalTemplate">
-
-                            <label for="{{dss.name}}">{{dss.name}}</label>
-
-                            <input type="text" id="{{dss.name}}" name="{{dss.name}}" class="form-control" ngModel value="{{dss.value}}" />
-                        </div>
-                        <ng-template #categoricalTemplate>
-                            <div class="form-group">
                                 <label for="{{dss.name}}">{{dss.name}}</label>
-                                <select id="{{dss.name}}" name="{{dss.name}}" ngModel class="form-control">
-                                    <option *ngFor="let category of dss.categoryMapping" value="{{category.name}}">{{category.name}}</option>
-                                </select>
+
+                                <input name="{{dss.name}}" class="form-control" [ngModel]="dss.value" />
                             </div>
+                            <ng-template #categoricalTemplate>
+                                <div class="form-group">
+                                    <label for="{{dss.name}}">{{dss.name}}</label>
+                                    <select id="{{dss.name}}" name="{{dss.name}}" [ngModel]="dss.value" class="form-control">
+                                        <option *ngFor="let category of dss.categoryMapping" [ngValue]="category.name">{{category.name}}</option>
+                                    </select>
+                                </div>
 
-                        </ng-template>
+                            </ng-template>
 
+                        </div>
                     </div>
-
 
 
 
                     <button type="submit" class="btn btn-success btn-lg">Submit</button>
 
-                    <button type="button" (click)="getData()" class="btn btn-warning btn-lg">Fetch Data From B3D</button>
+
+
                 </form>
             </div>
 

@@ -30,6 +30,11 @@ namespace PDManager.Core.Models
 
 
         /// <summary>
+        /// Value Weight
+        /// </summary>
+        public double Weight { get; set; }
+
+        /// <summary>
         /// Observation Category
         /// </summary>
         public string Category { get; set; }

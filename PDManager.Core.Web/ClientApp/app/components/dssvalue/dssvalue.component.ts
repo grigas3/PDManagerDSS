@@ -9,7 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 export class DSSValueComponent implements OnInit {
     public dssConfig: DSSConfig;
     public logOutput: string;
+    public patientId: string;
     public dssOutput: DSSOutputValue[];
+    public dssInput: DSSValue[];
     private httpClient: Http;
     private baseUrl: string;
     private modelId: string;
@@ -40,10 +42,10 @@ export class DSSValueComponent implements OnInit {
 
         console.log(url);
 
-
         this.httpClient.get(url).subscribe(result => {
             console.log(result.json());
             this.dssConfig = result.json() as DSSConfig;
+            this.dssInput = this.dssConfig.input;
         }, error => console.error(error));
 
 
@@ -52,7 +54,7 @@ export class DSSValueComponent implements OnInit {
     onSubmit(form: any): void {
 
 
-        var url = this.baseUrl + 'api/v1/dssevaluation';
+        var url = this.baseUrl + 'api/v1/dsseval';
 
         var model = { 'ModelId': this.modelId, 'Input': JSON.stringify(form) };
       
@@ -71,7 +73,32 @@ export class DSSValueComponent implements OnInit {
 
 
     getData(): void {
+        var url = this.baseUrl + 'api/v1/dsseval/input/' + this.modelId+'?patientId='+this.patientId;
+        var request = this.httpClient.get(url).subscribe(res => {
+            console.log(res);
+            var self = this;
+            var sourceInput = res.json() as DSSValue[];
 
+            var newInput = Object.assign(this.dssInput) as DSSValue[];
+
+            sourceInput.forEach(function (newi) {
+
+                var dssI = newInput.filter(function (item) {
+                    return item.name == newi.name;
+                }).forEach(function (newitem) {
+
+                    newitem.value = newi.value;                 
+                })
+                
+                
+            });
+            this.dssInput = newInput;
+
+        },
+            err => {
+                console.log("Error occured");
+            }
+        );
 
 
     }
@@ -89,6 +116,7 @@ interface DSSValue {
     value: number;
     name: string;
     numeric: boolean;
+    code: string;
     categoryMapping: DSSValueCategory[];
 }
 

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PDManager.Core
+namespace PDManager.Core.Common.Interfaces
 {
     /// <summary>
-    /// Data Proxy for
+    /// Data Proxy Interface for Get/Insert data to PDManager Cloud Repository
     /// </summary>
     public interface IDataProxy
     {
@@ -13,7 +13,7 @@ namespace PDManager.Core
         /// Insert into PDManager repository
         /// </summary>
         /// <typeparam name="T">Object Template</typeparam>
-        /// <param name="uri">Url</param>        
+
         /// <param name="item"> Item</param>        
         /// <example> 
         /// This sample shows how to call the <see cref="GetZero"/> method.
@@ -23,14 +23,14 @@ namespace PDManager.Core
         /// </code>
         /// </example>
         /// <returns>True in case of success otherwise false</returns>
-        Task<bool> Insert<T>(string uri, T item);
-      
+        Task<bool> Insert<T>(T item) where T : class;
+
 
         /// <summary>
         /// Get a list of items from the main repository
         /// </summary>
         /// <typeparam name="T">The type of item</typeparam>
-        /// <param name="uri">Method uri</param>        
+
         /// <param name="take">Take</param>
         /// <param name="skip">Skip</param>
         /// <param name="filter">Filter (Defined per type)</param>
@@ -38,15 +38,15 @@ namespace PDManager.Core
         /// <param name="sortdir">Sort direction</param>
         /// <param name="lastmodified">Last modified (for syncing)</param>
         /// <returns>List of T items</returns>
-        Task<IEnumerable<T>> Get<T>(string uri, int take, int skip, string filter, string sort, string sortdir = "false", long lastmodified = -1) where T : class;
+        Task<IEnumerable<T>> Get<T>( int take, int skip, string filter, string sort, string sortdir = "false", long lastmodified = -1) where T : class;
 
         /// <summary>
         /// Get a single item
         /// </summary>
         /// <typeparam name="T">Item</typeparam>
-        /// <param name="uri">Method uri</param>
+
         /// <param name="id">Item id</param>        
         /// <returns>A single T item</returns>
-        Task<T> Get<T>(string uri, string id);
+        Task<T> Get<T>(string id) where T : class;
     }
 }

@@ -25,5 +25,14 @@ namespace PDManager.Core.Common.Interfaces
         /// <returns>List of DSS Values</returns>
         Task<IEnumerable<DSSValue>> Run(string patientId, string dssConfigFile);
 
+
+        /// <summary>
+        /// Get Input Values for DSS model of specific patient
+        /// </summary>
+        /// <param name="patientId"> patient Id</param>
+        /// <param name="dssConfigFile">DSS Config file (Json)</param>
+        /// <returns>List of DSS Values</returns>
+        Task<IEnumerable<DSSValue>> GetInputValues(string patientId, string dssConfigFile);
+
     }
 }

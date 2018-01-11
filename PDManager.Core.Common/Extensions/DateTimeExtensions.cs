@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PDManager.Core.Extensions
+namespace PDManager.Core.Common.Extensions
 {
     /// <summary>
     /// Datetime extensions for conversion to Unix timestamps

@@ -17,10 +17,14 @@ namespace PDManager.Core.Common.Models
         /// Value
         /// </summary>
         public string Value { get; set; }
+      
+
         /// <summary>
-        /// Numeric or Categorical variable
+        /// Code
         /// </summary>
-        public bool Numeric { get; set; }
+        public string Code { get; set; }
+
+      
     }
 
     /// <summary>

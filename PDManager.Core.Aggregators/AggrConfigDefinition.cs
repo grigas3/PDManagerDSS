@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,18 +19,7 @@ namespace PDManager.Core.Aggregators
     public class AggrConfigDefinition
     {
 
-        /// <summary>
-        /// Time aggregation type value
-        /// </summary>
-        public const string TimeAggregationType = "time";
-        /// <summary>
-        /// Day aggregation type value
-        /// </summary>
-        public const string DayAggregationType = "day";
-        /// <summary>
-        /// Total aggregation type value
-        /// </summary>
-        public const string TotalAggregationType = "total";
+     
 
         /// <summary>
         /// Aggregation Type. Possible values
@@ -38,6 +28,33 @@ namespace PDManager.Core.Aggregators
         /// total: Aggregation of all values
         /// </summary>
         public string AggregationType { get; set; }
+
+
+        /// <summary>
+        /// Meta Aggregation Type.
+        /// Meta Aggregation occurs after aggregation on raw observations and filtering
+        /// Possible values
+        /// sum: Sum of observations
+        /// average: Average of observations        
+        /// std: Std of observations
+        /// max: Std of observations
+        /// min: Std of observations
+        /// mfi: Mean Fluctuation Index
+        /// cv:  Coefficient of variation
+        /// count: Std of observations
+        /// none: All observations
+        /// </summary>
+        public string MetaAggregationType { get; set; }
+
+
+        /// <summary>
+        /// Scale meta aggregated value
+        /// Default 1.0
+        /// </summary>
+
+        [DefaultValue(1)]
+        public double MetaScale { get; set; }
+
 
         /// <summary>
         /// Variables
@@ -189,10 +206,12 @@ namespace PDManager.Core.Aggregators
     /// </summary>
     public class AggrConfigVarDefinition
     {
+
+        //TODO: Probably Remove Source
         /// <summary>
-        /// Url to get Variable
+        /// Source of Variable
         /// </summary>
-        public string Uri { get; set; }
+        public string Source { get; set; }
         /// <summary>
         /// Code 
         /// </summary>

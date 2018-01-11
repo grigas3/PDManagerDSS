@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Web.Entities;
 using PDManager.Core.Web.Extensions;
 using System;
@@ -17,6 +18,7 @@ namespace PDManager.Core.Web.Controllers
         #region Private Declarations        
         private readonly Context.DSSContext _context;
         private readonly ILogger _logger;
+        
         #endregion
 
         #region Controllers
@@ -29,6 +31,7 @@ namespace PDManager.Core.Web.Controllers
         {          
             _context = context;
             _logger = logger;
+            
         }
         #endregion
 
@@ -62,13 +65,13 @@ namespace PDManager.Core.Web.Controllers
             return Ok(item);
 
         }
-
+     
         /// <summary>
         /// Get DSS Config
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        
+
         [HttpGet("config/{id}")]
         public IActionResult Config(string id)
         {

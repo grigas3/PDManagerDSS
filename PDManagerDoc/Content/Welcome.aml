@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="95148230-547d-43a5-b4f5-69d2dd35e637" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>This is the online help of the PDManager Cloud modules. This is a sample implementation.</para>
+		</introduction>
+
+		<section>
+			<title>Getting Started</title>
+			<content>
+				<para>In this documentation you will find the class definitions for all the basic modules of the PDManager
+        
+        The main modules of the PDManager Cloud infrastructure are the following
+        
+        <ul>
+          <li>Data Storage</li>
+          <li>Aggregation Module</li>
+          <li>Data Mining Module</li>
+        <li>Alerting Module</li>
+          
+          
+        </ul>
+        
+        
+        The Cloud infrastructure is implemented in C# and .NET and consists of three main applications.
+        
+        The first application consists of the B3D infrastructure with authentication, registration and application dashboards.
+        The second applications is the PD_Manager Web API with all the REST services and the 3rd application is the Background Job Service based on the HangFire and an ASP application
+        The last application is responsible for running periodically all the main 
+     
+        
+        
+        
+        It consists of the Web API which is implemented as a REST Web API services based on the 
+        Web API framework of Microsoft. 
+        
+        The second 
+        To get started, add a documentation source to the project (a Visual Studio solution, project, or
+assembly and XML comments file).  See the <legacyBold>Getting Started</legacyBold> topics in the Sandcastle Help
+File Builder's help file for more information.  The following default items are included in this project:</para>
+
+				<list class="bullet">
+					<listItem>
+						<para><localUri>ContentLayout.content</localUri> - Use the content layout file to manage the
+conceptual content in the project and define its layout in the table of contents.</para>
+					</listItem>
+
+					<listItem>
+						<para>The <localUri>.\media</localUri> folder - Place images in this folder that you will reference
+from conceptual content using <codeInline>medialLink</codeInline> or <codeInline>mediaLinkInline</codeInline>
+elements.  If you will not have any images in the file, you may remove this folder.</para>
+					</listItem>
+
+					<listItem>
+						<para>The <localUri>.\icons</localUri> folder - This contains a default logo for the help file.  You
+may replace it or remove it and the folder if not wanted.  If removed or if you change the file name, update
+the <ui>Transform Args</ui> project properties page by removing or changing the filename in the
+<codeInline>logoFile</codeInline> transform argument.  Note that unlike images referenced from conceptual topics,
+the logo file should have its <legacyBold>BuildAction</legacyBold> property set to <codeInline>Content</codeInline>.</para>
+					</listItem>
+
+					<listItem>
+						<para>The <localUri>.\Content</localUri> folder - Use this to store your conceptual topics.  You may
+name the files and organize them however you like.  One suggestion is to lay the files out on disk as you have
+them in the content layout file as shown in this project but the choice is yours.  Files can be added via the
+Solution Explorer or from within the content layout file editor.  Files must appear in the content layout file
+in order to be compiled into the help file.</para>
+					</listItem>
+				</list>
+
+				<para>See the <legacyBold>Conceptual Content</legacyBold> topics in the Sandcastle Help File Builder's
+help file for more information.  See the <legacyBold> Sandcastle MAML Guide</legacyBold> for details on Microsoft
+Assistance Markup Language (MAML) which is used to create these topics.</para>
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="af79d3a0-447c-4f16-89a6-bb6e73c6c2bd" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

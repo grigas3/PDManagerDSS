@@ -10,9 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PDManager.Core.Aggregators;
 using PDManager.Core.Common.Interfaces;
+using PDManager.Core.Common.Testing;
 using PDManager.Core.DSS;
 using PDManager.Core.Services;
+using PDManager.Core.Services.Testing;
 using PDManager.Core.Web.Context;
+using PDManager.Core.Web.Providers;
 
 namespace PDManager.Core.Web
 {
@@ -47,10 +50,17 @@ namespace PDManager.Core.Web
             services.AddDbContext<DSSContext>(options => options.UseInMemoryDatabase("dssdb"));
             // Add application services.
             services.AddTransient<IDSSRunner, DSSRunner>();
-            services.AddTransient<IDataProxy, DataProxy>();
+
+            //TODO: Replace with proper data proxy
+            //services.AddTransient<IDataProxy, DataProxy>();
+            services.AddTransient<IDataProxy, DummyDataProxy>();
             services.AddTransient<IAggregator, GenericAggregator>();
+            services.AddTransient<IGenericLogger, LoggingProvider>();
             services.AddTransient<IAggrDefinitionProvider, AggrDefinitionProvider>();
-            services.AddTransient<IProxyCredientialsProvider, DummyProxyCredentialProvider>();
+
+
+            //TODO: If Data PRoxy is used replace with proper credential provider
+           // services.AddTransient<IProxyCredientialsProvider, DummyCredentialProvider>();
             services.AddMvc();
         }
         /// <summary>

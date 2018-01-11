@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Common.Results;
+using PDManager.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace PDManager.Core.Services
 {
     /// <summary>
-    /// Data Proxy
+    /// Data Proxy Implementation for Get/Insert data to PDManager Cloud Repository
     /// </summary>
     public class DataProxy : IDataProxy
     {
@@ -21,6 +22,12 @@ namespace PDManager.Core.Services
 
         private readonly IProxyCredientialsProvider _credientialsProvider;
 
+        private readonly Dictionary<Type, string> uriDict = new Dictionary<Type, string>()
+        {
+
+            { typeof(PDObservation),"api/observations" },
+            { typeof(PDPatient),"api/patients" }
+        };
         #endregion
 
         /// <summary>
@@ -34,6 +41,9 @@ namespace PDManager.Core.Services
             this._credientialsProvider = credientialsProvider;
 
         }
+
+
+
 
 
         /// <summary>
@@ -96,6 +106,19 @@ namespace PDManager.Core.Services
             return (str.ToString());
         }
 
+        /// <summary>
+        /// Get Base Uri based on type of Generic Template
+        /// </summary>
+        /// <typeparam name="T">Template</typeparam>
+        /// <returns></returns>
+        private string GetBaseUri<T>()
+        {
+            if (!uriDict.ContainsKey(typeof(T)))
+                throw new NotSupportedException();
+
+            return uriDict[typeof(T)];
+        }
+
         private string GetUrl(string url, int take, int skip, string filter, string sort, string sortdir, long lastmodified = -1)
         {
             StringBuilder str = new StringBuilder();
@@ -121,7 +144,7 @@ namespace PDManager.Core.Services
         /// Get Async
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>        
+            
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <param name="filter"></param>
@@ -129,20 +152,18 @@ namespace PDManager.Core.Services
         /// <param name="sortdir"></param>
         /// <param name="lastmodified"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> Get<T>(string uri, int take, int skip, string filter, string sort, string sortdir = "false", long lastmodified = -1) where T : class
+        public async Task<IEnumerable<T>> Get<T>(int take, int skip, string filter, string sort, string sortdir = "false", long lastmodified = -1) where T : class
         {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
 
 
+            var uri = GetBaseUri<T>();
+            
             //First Get Access token
             var    accessToken = await GetAccessToken();
-
-
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(BaseAddress);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(BaseAddress)
+            };
 
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -176,23 +197,21 @@ namespace PDManager.Core.Services
         /// <summary>
         /// Get A single Item
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
+        /// <typeparam name="T"></typeparam>     
         /// <param name="id"></param>
         
         /// <returns></returns>
-        public async Task<T> Get<T>(string uri, string id)
+        public async Task<T> Get<T>(string id) where T : class
         {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
+            var uri = GetBaseUri<T>();
 
             //First Get Access token
             var accessToken = await GetAccessToken();
 
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(BaseAddress);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(BaseAddress)
+            };
 
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
@@ -222,18 +241,23 @@ namespace PDManager.Core.Services
         /// Insert into PDManager repository
         /// </summary>
         /// <typeparam name="T">Object Template</typeparam>
-        /// <param name="uri">Url</param>
         
-        /// <param name="item"> Item</param>
-        /// <returns></returns>
-        public async Task<bool> Insert<T>(string uri, T item)
+        /// <param name="item"> Item</param>        
+        /// <example> 
+        /// This sample shows how to call the <see cref="GetZero"/> method.
+        /// <code>
+        ///  IDataProxy proxy = new DataProxy(/*Credential Provider*/);
+        ///  var observations = proxy.Get&ltPDObservation&gt("api/observations", 10, 0, "{patientid:\"5900aa2a2f2cd563c4ae3027\",deviceid:\"\",codeid:\"PDTFTS_MAX\",datefrom:0,dateto:0,aggr:\"total\"}", null).Result;
+        /// </code>
+        /// </example>
+        /// <returns>True in case of success otherwise false</returns>
+        public async Task<bool> Insert<T>( T item) where T : class
         {
-            if (uri == null)
+            var uri = GetBaseUri<T>();
+            HttpClient client = new HttpClient
             {
-                throw new ArgumentNullException(nameof(uri));
-            }
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(BaseAddress);
+                BaseAddress = new Uri(BaseAddress)
+            };
             //First Get Access token
             var accessToken = await GetAccessToken();
 

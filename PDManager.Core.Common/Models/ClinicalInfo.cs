@@ -1,4 +1,6 @@
-﻿namespace PDManager.Core.Models
+﻿using System.Collections.Generic;
+
+namespace PDManager.Core.Models
 {
     /// <summary>
     /// Clinical Information stored in the Patient ClinicalInfo Entry
@@ -44,5 +46,16 @@
         /// Timestamp
         /// </summary>
         public long Timestamp { get; set; }
+    }
+
+
+    /// <summary>
+    /// Clinical Info Collection
+    /// </summary>
+    public class ClinicalInfoCollection:List<ClinicalInfo>
+    {
+
+
+
     }
 }

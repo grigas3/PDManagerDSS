@@ -1,6 +1,6 @@
-<h1>Dss models</h1>
+<h1>PDManager DSS models</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component lists the DSS  models from the server.</p>
 
 <p *ngIf="!dssModels"><em>Loading...</em></p>
 <div class="btn-group">
@@ -8,7 +8,7 @@
     <button class="btn btn-success" (click)="refresh();">Reload</button>
 </div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
         <table class='table' *ngIf="dssModels">
             <thead>
                 <tr>
@@ -36,21 +36,23 @@
             </tbody>
         </table>
     </div>
-
-    <div class="col-sm-6">
-        <table class='table table-bordered' *ngIf="logOutput">
-            <thead>
-                <tr>
-                    <th>Message</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let log of logOutput">
-                    <td ><span style="color:{{ log.color }}">{{ log.message }}</span></td>
-                   
-                </tr>
-            </tbody>
-        </table>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class='table table-bordered' *ngIf="logOutput">
+                <thead>
+                    <tr>
+                        <th>Message</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of logOutput">
+                        <td><span style="color:{{ log.color }}">{{ log.message }}</span></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
