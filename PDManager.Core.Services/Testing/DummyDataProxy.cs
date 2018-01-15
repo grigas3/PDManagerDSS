@@ -8,6 +8,7 @@ using PDManager.Core.Models;
 using Newtonsoft.Json;
 using System.IO;
 using PDManager.Core.Common.Extensions;
+using PDManager.Core.Common.Models;
 
 namespace PDManager.Core.Services.Testing
 {

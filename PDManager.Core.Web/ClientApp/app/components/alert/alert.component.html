@@ -1,0 +1,58 @@
+<h1>PDManager Alert models</h1>
+
+<p>This component lists the Alert  models from the server.</p>
+
+<p *ngIf="!alertModels"><em>Loading...</em></p>
+<div class="btn-group">
+    <button class="btn btn-danger" (click)="addDummyData();">Add Dummy</button>
+    <button class="btn btn-success" (click)="refresh();">Reload</button>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class='table' *ngIf="alertModels">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>CreatedBy</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let alert of alertModels">
+                    
+                    <td>{{ alert.id }}</td>
+                    <td>{{ alert.title }}</td>
+                    <td>{{ alert.description }}</td>
+                    <td>{{ alert.createdBy }}</td>
+
+                    <td>
+                        <button class="btn btn-success" [routerLink]="['/alertvalue',alert.id]">Get Alert For Patient</button>
+                        
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class='table table-bordered' *ngIf="logOutput">
+                <thead>
+                    <tr>
+                        <th>Message</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of logOutput">
+                        <td><span style="color:{{ log.color }}">{{ log.message }}</span></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

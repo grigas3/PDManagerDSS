@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PDManager.Core.Services</name>
+    </assembly>
+    <members>
+        <member name="T:PDManager.Core.Services.DataProxy">
+            <summary>
+            Data Proxy Implementation for Get/Insert data to PDManager Cloud Repository
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.#ctor(PDManager.Core.Common.Interfaces.IProxyCredientialsProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="credientialsProvider"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.GetAccessToken">
+            <summary>
+            This method is used to get access token from pdn
+            </summary>
+            <returns>Access token</returns>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.GetBaseUri``1">
+            <summary>
+            Get Base Uri based on type of Generic Template
+            </summary>
+            <typeparam name="T">Template</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.Get``1(System.Int32,System.Int32,System.String,System.String,System.String,System.Int64)">
+            <summary>
+            Get Async
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="filter"></param>
+            <param name="sort"></param>
+            <param name="sortdir"></param>
+            <param name="lastmodified"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.Get``1(System.String)">
+            <summary>
+            Get A single Item
+            </summary>
+            <typeparam name="T"></typeparam>     
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Services.DataProxy.Insert``1(``0)">
+            <summary>
+            Insert into PDManager repository
+            </summary>
+            <typeparam name="T">Object Template</typeparam>        
+            <param name="item"> Item</param>        
+            <returns>True in case of success otherwise false</returns>
+            <example> 
+            This sample shows how to call the <see cref="M:PDManager.Core.Services.DataProxy.Insert``1(``0)"/> method.
+            <code>
+             IDataProxy proxy = new DataProxy(/*Credential Provider*/);
+             var observations = proxy.GetPDObservation("api/observations", 10, 0, "{patientid:\"5900aa2a2f2cd563c4ae3027\",deviceid:\"\",codeid:\"PDTFTS_MAX\",datefrom:0,dateto:0,aggr:\"total\"}", null).Result;
+            </code>
+            </example>
+        </member>
+        <member name="T:PDManager.Core.Services.NamespaceDoc">
+            <summary>
+            PDManager Services
+            It includes only the DataProxy
+            DataProxy <cref>DataProxy</cref> is an implementation of Data provider service to get and store observations to the PDManager repository
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Services.NotificationService">
+            <summary>
+            Communication Manager
+            TODO: Proper Implementation with queue and scheduling
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.#ctor(PDManager.Core.Common.Interfaces.ICommunicationParamProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="communicationParamProvider">The Communication parameters</param>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.SendMessage(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send Message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.SendFCM(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send FCM Message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.SendGCM(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send GCM Message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.SendSMS(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send SMS Message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.NotificationService.SendEmail(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send Email
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:PDManager.Core.Services.Notification.NamespaceDoc">
+            <summary>
+            PDManager Notification Services
+            Based on the system or user settings a number of different notification ways could be used    
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Services.Testing.DummyDataProxy">
+            <summary>
+            Dummy Data Proxy to load data from a file
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Services.Testing.DummyDataProxy.#ctor">
+            <summary>
+            Void Constructor
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Services.Testing.DummyDataProxy.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with specific patient and file
+            </summary>
+            <param name="patientId"></param>
+            <param name="file"></param>
+        </member>
+        <member name="M:PDManager.Core.Services.Testing.DummyDataProxy.Insert``1(``0)">
+            <summary>
+            Insert T item to repository
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Services.Testing.DummyDataProxy.Get``1(System.Int32,System.Int32,System.String,System.String,System.String,System.Int64)">
+            <summary>
+            Get T items from Repository
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="filter"></param>
+            <param name="sort"></param>
+            <param name="sortdir"></param>
+            <param name="lastmodified"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Services.Testing.DummyDataProxy.Get``1(System.String)">
+            <summary>
+            Get
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Service.Notification.EmailNotification">
+            <summary>
+            A Email Notification implementation
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Service.Notification.EmailNotification.Notify(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Send Email
+            </summary>
+            <param name="from">From</param>
+            <param name="to">To</param>
+            <param name="body">body</param>
+            <param name="subject">Subject</param>
+            <param name="userName">User Name</param>
+            <param name="password">Passwrod</param>
+            <param name="smtpServer">Server</param>
+            <param name="smtpServerPort">Port</param>
+            <param name="cc">CC</param>
+        </member>
+        <member name="T:PDManager.Core.Service.Notification.FCMNotification">
+            <summary>
+            Google Firebase Push Notification Service
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Service.Notification.FCMNotification.Notify(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Send a Google Push Notifcation
+            </summary>
+            <param name="regId">Device ID</param>
+            <param name="patientId">Patient ID</param>
+            <param name="message">Message</param>
+            <param name="appID">Application ID (from Google)</param>
+            <param name="senderID">Sender ID (from Google)</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Service.Notification.GCMNotification">
+            <summary>
+            Google Push Notification Service
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Service.Notification.GCMNotification.Notify(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Send a Google Push Notifcation
+            </summary>
+            <param name="regId">Device ID</param>
+            <param name="patientId">Patient ID</param>
+            <param name="message">Message</param>
+            <param name="appID">Application ID (from Google)</param>
+            <param name="senderID">Sender ID (from Google)</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Service.Notification.SMSNotification">
+            <summary>
+            SMS Notification implementation based on yuboto services
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Service.Notification.SMSNotification.Notify(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Send SMS Through Yuboto
+            </summary>
+            <param name="from">From</param>
+            <param name="phoneNumber">Phone Number</param>
+            <param name="message">Message</param>
+            <param name="username">User namey</param>
+            <param name="password">Password</param>        
+            <param name="accessKey">Acccess Key</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

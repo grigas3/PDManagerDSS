@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PDManager.Core.Common.Extensions;
 using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Common.Models;
 using PDManager.Core.DSS.Dexi;
@@ -18,7 +19,7 @@ namespace PDManager.Core.DSS
     {
         private readonly IDataProxy _dataProxy;
         private readonly IAggregator _aggregator;
-
+        
 
         private const string ObservationType = "observation";
         private const string MetaObservationType = "metaobservation";
@@ -42,16 +43,6 @@ namespace PDManager.Core.DSS
 
         #endregion Private Declaration
 
-        /// <summary>
-        /// C# DateTime to Java
-        /// </summary>
-        /// <param name="dateTime">C# DateTime</param>
-        /// <returns></returns>
-        protected static long DateTimeToUnixTimestamp(DateTime dateTime)
-        {
-            return (long)(TimeZoneInfo.ConvertTimeToUtc(dateTime) -
-                   new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalSeconds;
-        }
 
         /// <summary>
         /// Load Model from a file
@@ -99,35 +90,50 @@ namespace PDManager.Core.DSS
         /// <returns></returns>
         public IEnumerable<DSSValue> Run(string configJson, Dictionary<string,string> values)       
         { 
-            Dictionary<string, int> valueMapping = new Dictionary<string, int>();
+            //Dictionary<string, int> valueMapping = new Dictionary<string, int>();
             var config = JsonConvert.DeserializeObject<DSSConfig>(configJson);
 
             //TODO: Handle Exceptions
             var model = LoadModel(config.DexiFile);
+            return Evaluate(model, config, values);
+
+        }
+
+
+        /// <summary>
+        /// Evaluate
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="config"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        private IEnumerable<DSSValue> Evaluate(Model model,DSSConfig config, Dictionary<string, string> values)
+        {
+
             foreach (var parameterInfo in config.Input)
             {
                 var key = parameterInfo.Name;
 
                 if (values.ContainsKey(key) && !string.IsNullOrEmpty(values[key]))
-                {             
-                  
-                        if (parameterInfo.Numeric)
-                        {
+                {
 
-                            double v = double.Parse(values[key]);
-                            model.SetInputValue(parameterInfo.Name, parameterInfo.GetNumericMapping(v));
-                        }
+                    if (parameterInfo.Numeric)
+                    {
+
+                        double v = double.Parse(values[key]);
+                        model.SetInputValue(parameterInfo.Name, parameterInfo.GetNumericMapping(v));
+                    }
+                    else
+                    {
+                        int? v = parameterInfo.GetCategoryMapping(values[key]);
+                        if (v.HasValue)
+                            model.SetInputValue(parameterInfo.Name, v.Value);
                         else
-                        {
-                            int? v = parameterInfo.GetCategoryMapping(values[key]);
-                            if (v.HasValue)
-                                model.SetInputValue(parameterInfo.Name, v.Value);
-                            else
-                                model.SetInputValue(parameterInfo.Name, parameterInfo.DefaultValue);
+                            model.SetInputValue(parameterInfo.Name, parameterInfo.DefaultValue);
 
-                        }
+                    }
 
-                    
+
 
                 }
                 else
@@ -139,9 +145,8 @@ namespace PDManager.Core.DSS
             }
 
             model.Evaluate(Model.Evaluation.SET, true);
-            var ret = model.Aggregate.Select(e => new DSSValue() { Name = e.Name, Value = e.ValuesString });
+            var ret = model.Aggregate.Select(e => new DSSValue() { Name = e.Name, Code=e.Name,Value = e.ValuesString });
             return ret;
-
         }
         /// <summary>
         /// Get Input Values for DSS model of specific patient
@@ -152,14 +157,22 @@ namespace PDManager.Core.DSS
         public async Task<IEnumerable<DSSValue>> GetInputValues(string patientId, string configJson)
         {
 
-            List<DSSValue> values = new List<DSSValue>();
+           
             Dictionary<string, int> valueMapping = new Dictionary<string, int>();
             var config = JsonConvert.DeserializeObject<DSSConfig>(configJson);
+            var ret = await GetInputValues(patientId, config);
+            return ret;
+        }
 
-
-
-            //  var accessToken = proxy.GetAccessToken("admin","newpass");//ConfigurationManager.AppSettings["B3NetProxyUserName"], ConfigurationManager.AppSettings["B3NetProxyPassword"]);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<DSSValue>> GetInputValues(string patientId, DSSConfig config)
+        {
+            List<DSSValue> values = new List<DSSValue>();
             //Codes from observations
             List<string> observationCodes = new List<string>();
 
@@ -171,9 +184,9 @@ namespace PDManager.Core.DSS
 
             foreach (var c in config.Input)
             {
-              
 
-                if(string.IsNullOrEmpty(c.Source))
+
+                if (string.IsNullOrEmpty(c.Source))
                 {
                     //TODO: Add some error to response
                     continue;
@@ -182,16 +195,19 @@ namespace PDManager.Core.DSS
 
                 if (c.Source.ToLower() == ObservationType)
                 {
+                    if(!observationCodes.Contains(c.Code))
                     observationCodes.Add(c.Code);
                 }
                 else if (c.Source.ToLower() == MetaObservationType)
                 {
-                    metaObservationCodes.Add(c.Code);
+                    if (!metaObservationCodes.Contains(c.Code))
+                        metaObservationCodes.Add(c.Code);
 
                 }
                 else if (c.Source.ToLower() == ClinicalInfoType)
                 {
-                    clinicalInfoCodes.Add(c.Code);
+                    if (!clinicalInfoCodes.Contains(c.Code))
+                        clinicalInfoCodes.Add(c.Code);
                 }
                 else
                 {
@@ -203,25 +219,23 @@ namespace PDManager.Core.DSS
 
             #region Observation Codes
 
-        
+
             //TODO: Join observations codes in a single request in case 
 
             foreach (var code in observationCodes)
             {
                 try
                 {
-                    var observations = await _dataProxy.Get<PDObservation>(10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, code, DateTimeToUnixTimestamp(DateTime.Now.AddDays(-config.AggregationPeriodDays)), DateTimeToUnixTimestamp(DateTime.Now)), null);
+                    var observations = await _dataProxy.Get<PDObservation>(10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, code, (DateTime.Now.AddDays(-config.AggregationPeriodDays).ToUnixTimestampMilli()), (DateTime.Now.ToUnixTimestampMilli())), null);
 
-                    foreach (var c in observations)
-                    {
-                        
-                        foreach(var observation in config.Input.Where(e => e.Code == c.CodeId))
+                  
+                        foreach (var observation in config.Input.Where(e => e.Code == code))
                         {
-                            values.Add(new DSSValue() { Name = observation.Name, Code = observation.Code, Value = c.Value.ToString() });
-                            
+                            values.Add(new DSSValue() { Name = observation.Name, Code = observation.Code, Value = observations.Select(e => e.Value).DefaultIfEmpty(0).Average().ToString() });
+
                         }
-                     
-                    }
+
+                   // }
                 }
                 catch (Exception ex)
                 {
@@ -247,9 +261,9 @@ namespace PDManager.Core.DSS
                     foreach(var metaObservation in config.Input.Where(e => e.Code == code))
                     {
                         //Meta Observations are only numeric
-                        values.Add(new DSSValue() { Name = metaObservation.Name, Code = metaObservation.Code,Value = aggrObservation.Select(e => e.Value).DefaultIfEmpty(0).Average().ToString() });
-                        
-                        
+                        values.Add(new DSSValue() { Name = metaObservation.Name, Code = metaObservation.Code, Value = aggrObservation.Select(e => e.Value).DefaultIfEmpty(0).Average().ToString() });
+
+
                     }
 
                 }
@@ -275,9 +289,9 @@ namespace PDManager.Core.DSS
 
                     if (clinicalInfo != null)
                     {
-                       
-                            values.Add(new DSSValue() { Name = clinicalInfo.Name,Code = clinicalInfo.Code, Value = c.Value });
-                     
+
+                        values.Add(new DSSValue() { Name = clinicalInfo.Name, Code = clinicalInfo.Code, Value = c.Value });
+
                     }
                 }
             }
@@ -288,157 +302,41 @@ namespace PDManager.Core.DSS
 
             #endregion Clinical Info
 
-            return values;
-        }
 
+            return values;
+
+        }
 
         /// <summary>
         /// Run DSS
         /// </summary>
         /// <param name="patientId">Patient Id</param>
-        /// <param name="dssMappingFile">DSS Mapping file</param>
+        /// <param name="configJson">DSS Config as Json String file</param>
         /// <returns></returns>
-        public async Task<IEnumerable<DSSValue>> Run(string patientId, string dssMappingFile)
+        public async Task<IEnumerable<DSSValue>> Run(string patientId, string configJson)
         {
             Dictionary<string, int> valueMapping = new Dictionary<string, int>();
-            var config = DSSConfig.LoadFromFile(dssMappingFile);
+            var config =DSSConfig.FromString(configJson);
 
             //TODO: Handle Exceptions
             var model = LoadModel(config.DexiFile);
 
-            
-
-            //  var accessToken = proxy.GetAccessToken("admin","newpass");//ConfigurationManager.AppSettings["B3NetProxyUserName"], ConfigurationManager.AppSettings["B3NetProxyPassword"]);
-
-            //Codes from observations
-            List<string> observationCodes = new List<string>();
-
-            //Codes from Meta o
-            List<string> metaObservationCodes = new List<string>();
-
-            //Codes from Patient Clinical Info
-            List<string> clinicalInfoCodes = new List<string>();
-
+            // Set initial values
             foreach (var c in config.Input)
             {
                 model.SetInputValue(c.Name, c.DefaultValue);
-
-                if (c.Source == ObservationType)
-                {
-                    observationCodes.Add(c.Code);
-                }
-                else if (c.Source ==MetaObservationType)
-                {
-                    metaObservationCodes.Add(c.Code);
-
-                }
-                else if (c.Source == ClinicalInfoType)
-                {
-                    clinicalInfoCodes.Add(c.Code);
-                }
-                else
-                {
-
-                    throw new NotSupportedException($"Source type {c.Source} not supported from PDManager DSS");
-
-                }
             }
 
-            #region Observation Codes
-
-            var codes = string.Join(",", observationCodes);
-            try
+            //Get DSS input values
+            var values =await GetInputValues(patientId, configJson);
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            foreach(var c in values)
             {
-                var observations = await _dataProxy.Get<PDObservation>( 10, 0, String.Format("{{patientid:\"{0}\",deviceid:\"\",datefrom:{2},dateto:{3},codeid:\"{1}\",aggr:\"total\"}}", patientId, codes, DateTimeToUnixTimestamp(DateTime.Now.AddDays(-config.AggregationPeriodDays)), DateTimeToUnixTimestamp(DateTime.Now)), null);
-
-                foreach (var c in observations)
-                {
-                    var observation = config.Input.FirstOrDefault(e => e.Code.ToLower() == c.CodeId.ToLower());
-
-                    if (observation != null)
-                    {
-                        //Observations are only numeric
-
-                        model.SetInputValue(observation.Name, observation.GetNumericMapping(c.Value));
-                    }
-                }
+                if(!dict.ContainsKey(c.Name))
+                dict.Add(c.Name, c.Value);
+                
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-
-            #endregion Meta Observation Codes
-
-            #region Meta Observation Codes
-
-
-            foreach (var code in metaObservationCodes)
-            {
-                try
-                {
-                    //Get Aggregated observation
-                    var aggrObservation=await _aggregator.Run(patientId, code, DateTime.Now.AddDays(-config.AggregationPeriodDays));                   
-
-                    //Find Corresponding observation in config
-                    var metaObservation = config.Input.FirstOrDefault(e => e.Code.ToLower() == code.ToLower());
-
-                        if (metaObservation != null)
-                        {
-                            //Meta Observations are only numeric
-                            model.SetInputValue(metaObservation.Name, metaObservation.GetNumericMapping(aggrObservation.Select(e=>e.Value).DefaultIfEmpty().Average()));
-                        }
-                   
-                }
-                catch (Exception ex)
-                {                    
-                    throw ex;
-                }
-            }
-
-            #endregion Observation Codes
-
-
-            #region Clinical Info
-
-            try
-            {
-                var patient = await _dataProxy.Get<PDPatient>(patientId);
-
-                var clinicalInfoList = GetClinicalInfoList(patient.ClinicalInfo);
-                foreach (var c in clinicalInfoList)
-                {
-                    var clinicalInfo = config.Input.FirstOrDefault(e => e.Code.ToLower() == c.Code.ToLower());
-
-                    if (clinicalInfo != null)
-                    {
-                        if (clinicalInfo.NumericMapping != null)
-                        {
-                            double v = double.Parse(c.Value);
-
-                            model.SetInputValue(clinicalInfo.Name, clinicalInfo.GetNumericMapping(v));
-                        }
-                        else
-                        {
-                            var v = clinicalInfo.GetCategoryMapping(c.Value);
-                            if (v.HasValue)
-                            {
-                                model.SetInputValue(clinicalInfo.Name,v.Value);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            #endregion Clinical Info
-
-            model.Evaluate(Model.Evaluation.SET, true);
-            var ret = model.Aggregate.Select(e=>new DSSValue() { Name=e.Name,Value=e.ValuesString});
-            return ret;
+            return Evaluate(model, config, dict);
         }
 
       

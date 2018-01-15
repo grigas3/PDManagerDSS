@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PDManager.Core.Aggregators</name>
+    </assembly>
+    <members>
+        <member name="T:PDManager.Core.Aggregators.AggrConfig">
+            <summary>
+            Aggregation Config Definition
+            Meta Observations come from complex aggregation of basic observations
+            An example is the OFF time which comes from the total UPDRS score
+            <example>{"AggregationType":"time","Variables":[{"Uri":"api/observations","Code":"STBRADS30","Weight":1.0},{"Uri":"api/observations","Code":"STDYS30","Weight":-1.0}],"Beta":0.0}</example>
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.AggregationType">
+            <summary>
+            Aggregation Type. Possible values
+            time: Aggregate observations per time of day
+            day: Aggregate observation per day
+            total: Aggregation of all values
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.MetaAggregationType">
+            <summary>
+            Meta Aggregation Type.
+            Meta Aggregation occurs after aggregation on raw observations and filtering
+            Possible values
+            sum: Sum of observations
+            average: Average of observations        
+            std: Std of observations
+            max: max of observations
+            min: min of observations
+            mfi: Mean Fluctuation Index
+            cv:  Coefficient of variation
+            count: count number of observations
+            none: Get all metaobservations
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.MetaScale">
+            <summary>
+            Scale meta aggregated value
+            Default 1.0
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Variables">
+            <summary>
+            Variables
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Beta">
+            <summary>
+            Beta
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.ThresholdValue">
+            <summary>
+            Threshold value
+            Threshold is required in Off Time or Dyskinesia Time estimation
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.ThresholdType">
+            <summary>
+            Theshold Type
+            Thresholds get be 
+            "fixed" where a static threshold is used
+            "std" the Threshold is ThresholdValue x STD
+            
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Threshold">
+            <summary>
+            Threshold
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrConfig.Version">
+            <summary>
+            Version
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.AggrConfig.SaveToFile(PDManager.Core.Aggregators.AggrConfig,System.String)">
+            <summary>
+            Save Aggregation Definition to file
+            </summary>
+            <param name="definition"></param>
+            <param name="file"></param>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.AggrConfig.LoadFromFile(System.String)">
+            <summary>
+            Load Aggregation Definition from file
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.AggrConfig.ToString">
+            <summary>
+            To String
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.AggrConfig.FromString(System.String)">
+            <summary>
+            Create Aggregation Definition from string
+            </summary>
+            <param name="configJson">Config in json</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Aggregators.AggrVariable">
+            <summary>
+            Aggregation Variable Definition
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrVariable.Source">
+            <summary>
+            Source of Variable. The source can be 1) observation and 2) clinical
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrVariable.Code">
+            <summary>
+            Code 
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Aggregators.AggrVariable.Weight">
+            <summary>
+            Weight
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Aggregators.GenericAggregator">
+            <summary>
+            UPDRS Score Aggregator
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Aggregators.GenericAggregator.TimeAggregationType">
+            <summary>
+            Time aggregation type value
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Aggregators.GenericAggregator.DayAggregationType">
+            <summary>
+            Day aggregation type value
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Aggregators.GenericAggregator.TotalAggregationType">
+            <summary>
+            Total aggregation type value
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Aggregators.GenericAggregator.UPDRSCODE">
+            <summary>
+            UPDRS Score Code
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.#ctor(PDManager.Core.Common.Interfaces.IDataProxy,PDManager.Core.Common.Interfaces.IGenericLogger,PDManager.Core.Common.Interfaces.IAggrDefinitionProvider)">
+            <summary>
+             Constructor
+            </summary>
+            <param name="proxy">Data proxy</param>
+            <param name="logger"></param>
+            <param name="aggrDefinitionDictionary"></param>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.GetFilter(System.String,System.String,System.Int64,System.String)">
+            <summary>
+            Get Filter
+            TODO: Get all codes together
+            </summary>
+            <param name="patientId"></param>
+            <param name="code"></param>
+            <param name="prevJobExecutionTimestamp"></param>
+            <param name="aggrType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.Run(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String)">
+            <summary>
+            Run Aggregation
+            This method 
+            1) loads the aggregation definition
+            2) Fetch all required observations using the DataProxy
+            3) Calls the PerformAggregation method to perform the aggregation and returns a new observation
+            
+            </summary>
+            <param name="patientId">Patient Id</param>
+            <param name="code">Meta observation Code</param>
+            <param name="lastExecutionTime"></param>
+            <param name="aggregationType">Overrides the default aggregation type</param>
+            <param name="filterType">Overrides the default filter type</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.PerformAggregation(PDManager.Core.Aggregators.AggrConfig,System.String,System.Int64,System.Collections.Generic.IEnumerable{PDManager.Core.Models.PDObservation})">
+            <summary>
+            PerformAggregation Aggregation
+            </summary>
+            <param name="definition">Aggregation Definition</param>
+            <param name="patientId">Patient Id</param>
+            <param name="timestamp">Timestamp</param>
+            <param name="observations">Observations</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.PerformTotalAggregation(PDManager.Core.Aggregators.AggrConfig,System.String,System.Int64,System.Collections.Generic.IEnumerable{PDManager.Core.Models.PDObservation})">
+            <summary>
+            Total Aggregation
+            </summary>
+            <param name="definition">Aggregation definition</param>
+            <param name="patientId">Patient Id</param>
+            <param name="timestamp">Timestamp</param>
+            <param name="observations">Observations</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.PerformDayAggregation(PDManager.Core.Aggregators.AggrConfig,System.String,System.Collections.Generic.IEnumerable{PDManager.Core.Models.PDObservation})">
+            <summary>
+            Day Aggregation
+            </summary>
+            <param name="definition">Aggregation Definition</param>
+            <param name="patientId">Patient Id</param>
+            <param name="observations">Observations</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.MetaAggregation(PDManager.Core.Aggregators.AggrConfig,System.String,System.Collections.Generic.IEnumerable{PDManager.Core.Common.Interfaces.IObservation})">
+            <summary>
+            2nd Level Aggregation
+            </summary>
+            <param name="definition">Aggregation Definition</param>
+            <param name="patientId">Patient Id</param>
+            <param name="metaObservations">Observations</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.GenericAggregator.PerformTimeAggregation(PDManager.Core.Aggregators.AggrConfig,System.String,System.Collections.Generic.IEnumerable{PDManager.Core.Models.PDObservation})">
+            <summary>
+            Time Aggregation
+            </summary>
+            <param name="definition">Aggregation Definition</param>
+            <param name="patientId">Patient Id</param>
+            <param name="observations">Observations</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Aggregators.NamespaceDoc">
+            <summary>
+            PDManager Aggregators
+            The aggregation is defined by a PDManager specific config Json file
+            An example is presented in <cref>AggrConfigDefinition</cref>
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider">
+            <summary>
+            Dummy Aggr Definition Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateOnOffAggregation">
+            <summary>
+            ONOFF Aggregation as a function of time
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateOffTimeAggregation">
+            <summary>
+            Off Time Aggregation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateUPDRSTOTALAggregation">
+            <summary>
+            Total UPDRS score
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateUPDRSDAYAggregation">
+            <summary>
+            Day UPDRS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateUPDRSAggregation">
+            <summary>
+            Time UPDRS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.CreateFLUCTAggregation">
+            <summary>
+            Time UPDRS
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.GetJsonConfigFromCode(System.String)">
+            <summary>
+            Get Json Config From Code
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Aggregators.Testing.DummyAggrDefinitionProvider.GetConfigFromCode(System.String)">
+            <summary>
+            Get Aggregation Config From Code
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

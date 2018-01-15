@@ -13,22 +13,23 @@ namespace PDManager.Core.Common.Testing
     public class DummyCredentialProvider : IProxyCredientialsProvider
     {
 
+        
         /// <summary>
-        /// password
+        /// password Removed values for security
         /// </summary>
         /// <returns></returns>
         public string GetPassword()
         {
-            return "newpass";
+            return "XXXXX";
         }
 
         /// <summary>
-        /// User name
+        /// User name (Removed values for security)
         /// </summary>
         /// <returns></returns>
         public string GetUserName()
         {
-            return "admin";
+            return "XXXX";
         }
     }
     

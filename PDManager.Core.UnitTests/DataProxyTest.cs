@@ -12,6 +12,7 @@ using PDManager.Core.UnitTests;
 using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Common.Extensions;
 using PDManager.Core.Common.Testing;
+using PDManager.Core.Common.Models;
 
 namespace PDManager.JobRunner2.Tests.Controllers
 {

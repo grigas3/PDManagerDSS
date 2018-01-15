@@ -41,7 +41,6 @@
       <DocumentationSource sourceFile="..\PDManager.Core.Aggregators\PDManager.Core.Aggregators.csproj" />
       <DocumentationSource sourceFile="..\PDManager.Core.Common\PDManager.Core.Common.csproj" />
       <DocumentationSource sourceFile="..\PDManager.Core.DSS\PDManager.Core.DSS.csproj" />
-      <DocumentationSource sourceFile="..\PDManager.Core.Models\PDManager.Core.Models.csproj" />
       <DocumentationSource sourceFile="..\PDManager.Core.Services\PDManager.Core.Services.csproj" />
     </DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>

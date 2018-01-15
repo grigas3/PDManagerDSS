@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
+using PDManager.Core.Aggregators;
 using PDManager.Core.Aggregators.Testing;
 using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Web.Entities;
@@ -165,6 +168,20 @@ namespace PDManager.Core.Web.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// Get Aggr Definition Schema
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("schema")]
+        public IActionResult GetSchema()
+        {
+            JSchemaGenerator generator = new JSchemaGenerator();
+
+            JSchema schema = generator.Generate(typeof(AggrConfig));
+
+            return Json(schema.ToString());
+        }
 
 
         private void AddDummyAggr(Context.DSSContext context)

@@ -17,10 +17,10 @@ namespace PDManager.Core.Aggregators.Testing
         /// ONOFF Aggregation as a function of time
         /// </summary>
         /// <returns></returns>
-        public static AggrConfigDefinition CreateOnOffAggregation()
+        public static AggrConfig CreateOnOffAggregation()
         {
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "time",
@@ -33,17 +33,17 @@ namespace PDManager.Core.Aggregators.Testing
                 ThresholdValue = 15,
                 Beta = 3.5621,
                 MetaScale = 1.0,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -51,14 +51,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -66,7 +66,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -75,7 +75,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -98,10 +98,10 @@ namespace PDManager.Core.Aggregators.Testing
         /// Off Time Aggregation
         /// </summary>
         /// <returns></returns>
-        public static AggrConfigDefinition CreateOffTimeAggregation()
+        public static AggrConfig CreateOffTimeAggregation()
         {
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "time",
@@ -115,17 +115,17 @@ namespace PDManager.Core.Aggregators.Testing
                 ThresholdValue = 15,
                 Beta = 3.5621,
                 MetaScale=4.0,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -133,14 +133,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -148,7 +148,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -157,7 +157,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -180,11 +180,11 @@ namespace PDManager.Core.Aggregators.Testing
         /// Total UPDRS score
         /// </summary>
         /// <returns></returns>
-        public static AggrConfigDefinition CreateUPDRSTOTALAggregation()
+        public static AggrConfig CreateUPDRSTOTALAggregation()
         {
 
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "total",              
@@ -194,17 +194,17 @@ namespace PDManager.Core.Aggregators.Testing
                 Version = "1.0",
                 Beta = 3.5621,
                 MetaScale = 1.0,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -212,14 +212,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -227,7 +227,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -236,7 +236,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -258,11 +258,11 @@ namespace PDManager.Core.Aggregators.Testing
         /// </summary>
         /// <returns></returns>
 
-        public static AggrConfigDefinition CreateUPDRSDAYAggregation()
+        public static AggrConfig CreateUPDRSDAYAggregation()
         {
 
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "day",
@@ -272,17 +272,17 @@ namespace PDManager.Core.Aggregators.Testing
                 Version = "1.0",
                 Beta = 3.5621,
                 MetaScale = 1.0,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -290,14 +290,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -305,7 +305,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -314,7 +314,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -336,11 +336,11 @@ namespace PDManager.Core.Aggregators.Testing
         /// Time UPDRS
         /// </summary>
         /// <returns></returns>
-        public static AggrConfigDefinition CreateUPDRSAggregation()
+        public static AggrConfig CreateUPDRSAggregation()
         {
 
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "time",
@@ -350,17 +350,17 @@ namespace PDManager.Core.Aggregators.Testing
                 Version = "1.0",
                 MetaScale = 1.0,
                 Beta = 3.5621,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -368,14 +368,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -383,7 +383,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -392,7 +392,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -415,11 +415,11 @@ namespace PDManager.Core.Aggregators.Testing
         /// Time UPDRS
         /// </summary>
         /// <returns></returns>
-        public static AggrConfigDefinition CreateFLUCTAggregation()
+        public static AggrConfig CreateFLUCTAggregation()
         {
 
 
-            AggrConfigDefinition def = new AggrConfigDefinition()
+            AggrConfig def = new AggrConfig()
             {
 
                 AggregationType = "time",
@@ -430,17 +430,17 @@ namespace PDManager.Core.Aggregators.Testing
                 MetaScale = 1.0,
                 MetaAggregationType="mfi",
                 Beta = 3.5621,
-                Variables = new List<AggrConfigVarDefinition>()
+                Variables = new List<AggrVariable>()
                 {
 
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=8.2422,
                         Code="STBRAD30",
                         Source="observation"
 
                     },
-                    new AggrConfigVarDefinition()
+                    new AggrVariable()
                     {
                         Weight=4.763,
                         Code="STUPDRSG",
@@ -448,14 +448,14 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=4.0556,
                         Code="STFOG",
                         Source="observation"
 
                     },
-                       new AggrConfigVarDefinition()
+                       new AggrVariable()
                     {
                         Weight=1.4900,
                         Code="STTRMA30",
@@ -463,7 +463,7 @@ namespace PDManager.Core.Aggregators.Testing
 
                     },
 
-                        new AggrConfigVarDefinition()
+                        new AggrVariable()
                     {
                         Weight=2.5942,
                         Code="STTRMC30",
@@ -472,7 +472,7 @@ namespace PDManager.Core.Aggregators.Testing
                     },
 
 
-                      new AggrConfigVarDefinition()
+                      new AggrVariable()
                     {
                         Weight=2.7079,
                         Code="STDYS30",
@@ -544,7 +544,7 @@ namespace PDManager.Core.Aggregators.Testing
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public AggrConfigDefinition GetConfigFromCode(string code)
+        public AggrConfig GetConfigFromCode(string code)
         {
 
 

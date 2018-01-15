@@ -30,6 +30,11 @@ namespace PDManager.Core.Web.Context
         /// </summary>
         public DbSet<AggrModel> AggrModels { get; set; }
 
+        /// <summary>
+        /// Aggregation Models
+        /// </summary>
+        public DbSet<AlertModel> AlertModels { get; set; }
+
 
 
         /// <summary>
@@ -54,6 +59,7 @@ namespace PDManager.Core.Web.Context
         {
             modelBuilder.Entity<DSSModel>().HasKey(m => m.Id);
             modelBuilder.Entity<AggrModel>().HasKey(m => m.Id);
+            modelBuilder.Entity<AlertModel>().HasKey(m => m.Id);
         }
     }
 }

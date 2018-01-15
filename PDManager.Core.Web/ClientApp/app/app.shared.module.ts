@@ -8,6 +8,8 @@ import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { DSSValueComponent } from './components/dssvalue/dssvalue.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertValueComponent } from './components/alertvalue/alertvalue.component';
 import { AggrValueComponent } from './components/aggrvalue/aggrvalue.component';
 import { DSSComponent } from './components/dss/dss.component';
 import { AggregationComponent } from './components/aggregation/aggr.component';
@@ -17,6 +19,8 @@ import { AggregationComponent } from './components/aggregation/aggr.component';
         NavMenuComponent,
         DSSValueComponent,        
         DSSComponent,
+        AlertComponent,
+        AlertValueComponent,
         AggregationComponent,
         AggrValueComponent,        
         HomeComponent
@@ -31,7 +35,9 @@ import { AggregationComponent } from './components/aggregation/aggr.component';
             { path: 'home', component: HomeComponent },
             { path: 'dssvalue/:id', component: DSSValueComponent },
             { path: 'aggrvalue/:id', component: AggrValueComponent },
+            { path: 'alertvalue/:id', component: AlertValueComponent },
             { path: 'dss', component: DSSComponent },     
+            { path: 'alert', component: AlertComponent },     
             { path: 'aggregation', component: AggregationComponent },     
             { path: '**', redirectTo: 'home' }
         ])

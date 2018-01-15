@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PDManager.Core.Common.Models;
 
 namespace PDManager.Core.Common.Interfaces
 {
@@ -18,6 +19,6 @@ namespace PDManager.Core.Common.Interfaces
         /// <param name="skip"></param>
         /// <returns></returns>
         IEnumerable<string> GetPatientIds(int take = 0, int skip = 0);
-
+        IEnumerable<NotificationContact> GetPatientContacts(string patId);
     }
 }

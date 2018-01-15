@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace PDManager.Core.DSS
@@ -14,86 +15,63 @@ namespace PDManager.Core.DSS
         /// <summary>
         /// DSS Name
         /// </summary>
+        [Description("DSS name")]
+        [JsonRequired]
         public string Name { get; set; }
         /// <summary>
         /// DSS Version
         /// </summary>
+        [Description("Version of the DSS Model")]
+        [JsonRequired]
         public string Version { get; set; }
 
         /// <summary>
         /// Dexi File
         /// </summary>
+        [Description("Dexi File Reference")]
+        [JsonRequired]
         public string DexiFile { get; set; }
 
         /// <summary>
         /// Value Mappings
         /// </summary>
+        [Description("Input")]
         public List<DSSValueMapping> Input { get; set; }
 
         /// <summary>
         /// Aggregation Period Days (Default 30)
         /// </summary>
+        [Description("Aggregation Period Days(Default 30)")]
+        [JsonRequired]
         public int AggregationPeriodDays { get; set; }
 
-        /// <summary>
-        /// Save as Json to a file
-        /// </summary>
-        /// <param name="config">DSS Config</param>
-        /// <param name="file">Output File</param>
-        public static void SaveToFile(DSSConfig config, string file)
-        {
-            StreamWriter fstr = null;
-            JsonTextWriter writer = null;
-            try
-            {
-                fstr = new StreamWriter(file);
-                writer = new JsonTextWriter(fstr);
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(writer, config);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (writer != null)
-                    writer.Close();
-                if (fstr != null)
-                    fstr.Dispose();
-            }
-        }
+
+        #region Helpers
 
         /// <summary>
         /// Load From File
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="config"></param>
         /// <returns></returns>
-        public static DSSConfig LoadFromFile(string file)
+        public static DSSConfig FromString(string config)
         {
             DSSConfig ret = null;
-            StreamReader fstr = null;
-            JsonTextReader reader = null;
             try
             {
-                fstr = new StreamReader(file);
-                reader = new JsonTextReader(fstr);
-                JsonSerializer serializer = new JsonSerializer();
-                ret = serializer.Deserialize<DSSConfig>(reader);
+
+                ret = JsonConvert.DeserializeObject<DSSConfig>(config);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            finally
-            {
-                if (reader != null)
-                    reader.Close();
-                if (fstr != null)
-                    fstr.Dispose();
-            }
 
             return ret;
         }
+        #endregion
+
+
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PDManager.Core.Common.Interfaces;
+using PDManager.Core.Common.Models;
 using PDManager.Core.Common.Results;
 using PDManager.Core.Models;
 using System;
@@ -240,17 +241,16 @@ namespace PDManager.Core.Services
         /// <summary>
         /// Insert into PDManager repository
         /// </summary>
-        /// <typeparam name="T">Object Template</typeparam>
-        
+        /// <typeparam name="T">Object Template</typeparam>        
         /// <param name="item"> Item</param>        
+        /// <returns>True in case of success otherwise false</returns>
         /// <example> 
-        /// This sample shows how to call the <see cref="GetZero"/> method.
+        /// This sample shows how to call the <see cref="Insert"/> method.
         /// <code>
         ///  IDataProxy proxy = new DataProxy(/*Credential Provider*/);
-        ///  var observations = proxy.Get&ltPDObservation&gt("api/observations", 10, 0, "{patientid:\"5900aa2a2f2cd563c4ae3027\",deviceid:\"\",codeid:\"PDTFTS_MAX\",datefrom:0,dateto:0,aggr:\"total\"}", null).Result;
+        ///  var observations = proxy.GetPDObservation("api/observations", 10, 0, "{patientid:\"5900aa2a2f2cd563c4ae3027\",deviceid:\"\",codeid:\"PDTFTS_MAX\",datefrom:0,dateto:0,aggr:\"total\"}", null).Result;
         /// </code>
         /// </example>
-        /// <returns>True in case of success otherwise false</returns>
         public async Task<bool> Insert<T>( T item) where T : class
         {
             var uri = GetBaseUri<T>();

@@ -14,7 +14,7 @@ namespace PDManager.Core.Web.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// DSS Title
+        /// DSS Name
         /// </summary>
         [StringLength(100)]
         public string Name { get; set; }
@@ -61,8 +61,10 @@ namespace PDManager.Core.Web.Entities
         /// Modified Date
         /// </summary>
         public DateTime ModifiedDate { get; set; }
-        
 
-      
+        /// <summary>
+        /// Code
+        /// </summary>
+        public string Code { get; internal set; }
     }
 }

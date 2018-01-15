@@ -16,6 +16,11 @@ using PDManager.Core.Services;
 using PDManager.Core.Services.Testing;
 using PDManager.Core.Web.Context;
 using PDManager.Core.Web.Providers;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using PDManager.Core.Jobs;
+using Microsoft.Extensions.Logging;
+
 
 namespace PDManager.Core.Web
 {
@@ -57,10 +62,27 @@ namespace PDManager.Core.Web
             services.AddTransient<IAggregator, GenericAggregator>();
             services.AddTransient<IGenericLogger, LoggingProvider>();
             services.AddTransient<IAggrDefinitionProvider, AggrDefinitionProvider>();
+            services.AddTransient<IDSSDefinitionProvider,DSSDefinitionProvider>();
+            services.AddTransient<IAlertEvaluator, AlertEvaluator>();
+            services.AddTransient<IPatientProvider, DummyPatientProvider>();
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<ICommunicationParamProvider, CommunicationParamProvider>();
+            services.AddTransient<IRecurringJob, AlertEvaluationJob>();
+            services.AddTransient<IJobFactory, JobFactory>();
+            services.AddTransient<IAlertInputProvider, AlertInputProvider>();
+
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "PDManager DSS API", Version = "v1" });
+            });
+
+            services.AddHangfire(config =>
+           config.UseMemoryStorage());
 
 
-            //TODO: If Data PRoxy is used replace with proper credential provider
-           // services.AddTransient<IProxyCredientialsProvider, DummyCredentialProvider>();
+            //TODO: If Data PRoxy is used replace with propert Replace with proper data proxy
+            // services.AddTransient<IProxyCredientialsProvider, DummyCredentialProvider>();
             services.AddMvc();
         }
         /// <summary>
@@ -68,8 +90,7 @@ namespace PDManager.Core.Web
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="env"></param>
-
+        /// <param name="env"></param>s
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -85,8 +106,14 @@ namespace PDManager.Core.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+       
             app.UseStaticFiles();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+            app.UseSwagger();
+
+
+         
 
             app.UseMvc(routes =>
             {

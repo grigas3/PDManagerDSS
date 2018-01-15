@@ -1,0 +1,45 @@
+<div class="alert alert-warning">For this demo the only valid patient id is <b>1</b></div>
+<div class="ui raised segment">
+    
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+
+
+
+            <h5>Enter Patient Id</h5>
+            <input [(ngModel)]="patientId">
+
+
+            <button type="button" (click)="execute()" class="btn btn-success btn-lg">Execute</button>
+
+
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-12 col-lg-12">
+
+            <h2 class="ui header">Output</h2>
+            <div *ngIf="!alertOutput">
+                Submit Aggregation to get the output
+            </div>
+            <div *ngIf="alertOutput">
+                <div class="alert-{{alertOutput.color}} alert">
+                    <h3>
+                        {{alertOutput.message}}
+                    </h3>
+                    <p>The Current Alert level is {{alertOutput.level}}</p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

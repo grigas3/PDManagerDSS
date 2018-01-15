@@ -1,0 +1,747 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PDManager.Core.Web</name>
+    </assembly>
+    <members>
+        <member name="T:PDManager.Core.Web.Context.DSSContext">
+            <summary>
+            DSS Context
+            A small Context in order to store dss models
+            This implementationj is a inmemory database only for testing
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.DSSContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{PDManager.Core.Web.Context.DSSContext})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:PDManager.Core.Web.Context.DSSContext.DSSModels">
+            <summary>
+            DSS Models
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Context.DSSContext.AggrModels">
+            <summary>
+            Aggregation Models
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Context.DSSContext.AlertModels">
+            <summary>
+            Aggregation Models
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.DSSContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <summary>
+            On Configuration
+            Here we set the storage provider
+            Current implementation  use the InMemoryDatabase with a line of code
+               optionsBuilder.UseInMemoryDatabase("dssdb");
+            </summary>
+            <param name="optionsBuilder"></param>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.DSSContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            On Model Creating method
+            Include here all configuration
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="T:PDManager.Core.Web.Context.AggrDefinitionProvider">
+            <summary>
+            Aggregation Definition Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.AggrDefinitionProvider.#ctor(PDManager.Core.Web.Context.DSSContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Context</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.AggrDefinitionProvider.GetJsonConfigFromCode(System.String)">
+            <summary>
+            Get Config in JSON format from meta-observation code
+            </summary>
+            <param name="code">Meta-observation code</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Context.DSSDefinitionProvider">
+            <summary>
+            Aggregation Definition Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.DSSDefinitionProvider.#ctor(PDManager.Core.Web.Context.DSSContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Context</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Context.DSSDefinitionProvider.GetJsonConfigFromCode(System.String)">
+            <summary>
+            Get Config in JSON format from meta-observation code
+            </summary>
+            <param name="code">Meta-observation code</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.AggregationController">
+            <summary>
+            DSS Controller
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.#ctor(PDManager.Core.Web.Context.DSSContext,PDManager.Core.Common.Interfaces.IAggregator,Microsoft.Extensions.Logging.ILogger{PDManager.Core.Web.Controllers.AggregationController})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Data Context</param>
+            <param name="aggregator"></param>        
+            <param name="logger">Logger</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.Get">
+            <summary>
+            Get List of dss models
+            </summary>
+            <returns>List of dss models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.Get(System.Int32)">
+            <summary>
+            Get dss model
+            </summary>
+            <param name="id"></param>
+            <returns>List of aggregation models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.Config(System.String)">
+            <summary>
+            Get Aggregation Config
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.Evaluate(System.String,System.String)">
+            <summary>
+            Evaluate
+            </summary>
+            <param name="code"></param>
+            <param name="patientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.Post(PDManager.Core.Web.Entities.AggrModel)">
+            <summary>
+            Post Aggr Model
+            Call: POST api/aggregation/5
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.CreateDummy">
+            <summary>
+            Create Dummy Data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AggregationController.GetSchema">
+            <summary>
+            Get Aggr Definition Schema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.AlertController">
+            <summary>
+            DSS Controller
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AlertController.#ctor(PDManager.Core.Web.Context.DSSContext,PDManager.Core.Common.Interfaces.IAlertEvaluator,Microsoft.Extensions.Logging.ILogger{PDManager.Core.Web.Controllers.DSSController})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Data Context</param>
+            <param name="alertEvaluator"></param>        
+            <param name="logger">Logger</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AlertController.Get">
+            <summary>
+            Get List of dss models
+            </summary>
+            <returns>List of dss models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AlertController.Get(System.Int32)">
+            <summary>
+            Get dss model
+            </summary>
+            <param name="id"></param>
+            <returns>List of dss models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AlertController.Evaluate(System.String,System.String)">
+            <summary>
+            Get DSS Config
+            </summary>
+            <param name="id"></param>
+            <param name="patientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.AlertController.CreateDummy">
+            <summary>
+            Create Dummy Data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.DSSController">
+            <summary>
+            DSS Controller
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.#ctor(PDManager.Core.Web.Context.DSSContext,Microsoft.Extensions.Logging.ILogger{PDManager.Core.Web.Controllers.DSSController})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">Data Context</param>        
+            <param name="logger">Logger</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.Get">
+            <summary>
+            Get List of dss models
+            </summary>
+            <returns>List of dss models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.Get(System.Int32)">
+            <summary>
+            Get dss model
+            </summary>
+            <param name="id"></param>
+            <returns>List of dss models</returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.Config(System.String)">
+            <summary>
+            Get DSS Config
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.GetSchema">
+            <summary>
+            Get DSS Definition Schema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.Post(PDManager.Core.Web.Entities.DSSModel)">
+            <summary>
+            Post DSS Model
+            Call: POST api/dss/5
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSController.CreateDummy">
+            <summary>
+            Create Dummy Data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.DSSEvalController">
+            <summary>
+            DSS Value
+            This Controller expose two methods
+            one get method to run DSS evaluation for a specific patient
+            and one post method to get evaluation based on DSSInput values from a form
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSEvalController.#ctor(PDManager.Core.Web.Context.DSSContext,PDManager.Core.Common.Interfaces.IDSSRunner)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="context">DSS Context</param>
+            <param name="dSSRunner">DSS Runner</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSEvalController.Get(System.Int32,System.String)">
+            <summary>
+            Get DSS Evaluation. Based on the DSS definition it will use the last N day observations
+            to get a DSS output.
+            Sample call
+            GET api/dss/execute/5?patientId=2
+            </summary>
+            <param name="id">DSS model id</param>
+            <param name="patientId">Patient id</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSEvalController.Input(System.Int32,System.String)">
+            <summary>
+            Get DSS Config
+            </summary>
+            <param name="id"></param>
+            <param name="patientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.DSSEvalController.Post(PDManager.Core.Common.Models.DSSInput)">
+            <summary>
+            Post a form with DSS Model Values
+            </summary>
+            <param name="dssInput"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.HomeController">
+            <summary>
+            Sample Home Controller
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.HomeController.Index">
+            <summary>
+            Index
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.HomeController.Error">
+            <summary>
+            Error Page
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Controllers.MetaObservationController">
+            <summary>
+            Meta observation constroller
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.MetaObservationController.#ctor(PDManager.Core.Common.Interfaces.IAggregator)">
+            <summary>
+            Meta-observation controller
+            </summary>
+            <param name="aggregator">Aggregator</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Controllers.MetaObservationController.Get(System.String,System.String)">
+            <summary>
+            Get Observation
+            </summary>
+            <param name="patientId">Patient Id</param>
+            <param name="code">Meta-observation code</param>
+            <returns>An observation</returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Entities.AggrModel">
+            <summary>
+            Aggregation Model for Creating Meta-observations
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Id">
+            <summary>
+            DSS ID
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Name">
+            <summary>
+            DSS Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Description">
+            <summary>
+            DSS Description
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Code">
+            <summary>
+            Meta-Observation Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Version">
+            <summary>
+            DSS Version
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.Config">
+            <summary>
+            DSS Config in Json Format
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.CreatedBy">
+            <summary>
+            Created By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.ModifiedBy">
+            <summary>
+            Modified By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.CreatedDate">
+            <summary>
+            Created Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AggrModel.ModifiedDate">
+            <summary>
+            Modified Date
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Web.Entities.AlertModel">
+            <summary>
+            Alert Model
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.Name">
+            <summary>
+            Alert Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.Message">
+            <summary>
+            Message of alert 
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.UserId">
+            <summary>
+            UserId
+            Physician Id who (if) created the alert
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.IsSystem">
+            <summary>
+            Alerts may be either system generated or physician generated
+            System alerts SHOULD be only changed/deleted by PDManager administrator
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.HighPriorityValue">
+            <summary>
+            High Priority value
+            High Priority value corresponds to high priority alerts
+            If this rule is fired then a notification should be given to the corresponding physician
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            If this value is null then this is ignored
+            
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.MediumPriorityValue">
+            <summary>
+            Medium Priority value
+            Medium Priority value corresponds to medium priority alerts
+            If this rule is fired then a notification should be given to the corresponding physician WHEN he enters the mobile app
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is null then this is ignored      
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.LowPriorityValue">
+            <summary>
+            Low Priority value
+            Low Priority value corresponds to low priority alerts
+            If this rule is fired then this alert is visible only from the alerts tile of PDManger mobile app
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is null then this is ignored
+            Medium and High Priority are also visible in the patient's alert tile.
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.TargetValueCode">
+            <summary>
+            Target value code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.TargetValueSource">
+            <summary>
+            Source of Target Value Possible values:
+            1) observation
+            2) clinical
+            3) metaobservation
+            4) dss
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.TargetValueNumeric">
+            <summary>
+            True if target value is numeric otherwise is categorical
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.CreatedBy">
+            <summary>
+            Created By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.ModifiedBy">
+            <summary>
+            Modified By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.CreatedDate">
+            <summary>
+            Created Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.ModifiedDate">
+            <summary>
+            Modified Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.AlertModel.AggregationPeriodDays">
+            <summary>
+            Aggregation Period
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Web.Entities.DSSModel">
+            <summary>
+            DSS model    
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Id">
+            <summary>
+            DSS ID
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Name">
+            <summary>
+            DSS Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Description">
+            <summary>
+            DSS Description
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Version">
+            <summary>
+            DSS Version
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Config">
+            <summary>
+            DSS Config in Json Format
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.CreatedBy">
+            <summary>
+            Created By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.ModifiedBy">
+            <summary>
+            Modified By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.CreatedDate">
+            <summary>
+            Created Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.ModifiedDate">
+            <summary>
+            Modified Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Web.Entities.DSSModel.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Web.Extensions.ModelExtensions">
+            <summary>
+            DSS Model Extension Helpers
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Extensions.ModelExtensions.GetConfig(PDManager.Core.Web.Entities.DSSModel)">
+            <summary>
+            Get Config from deserializing model config in Json format
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Extensions.ModelExtensions.GetDSSConfig(System.String)">
+            <summary>
+            Get Config from file
+            </summary>
+            <param name="dssConfigFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Extensions.ModelExtensions.LoadFromFile(System.String)">
+            <summary>
+            Load From File
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Extensions.ModelExtensions.GetConfig(PDManager.Core.Web.Entities.AggrModel)">
+            <summary>
+            Get Config from deserializing model config in Json format
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Extensions.ModelExtensions.GetAggrConfig(System.String)">
+            <summary>
+            Get Config from file
+            </summary>
+            <param name="aggrConfigFile"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Program">
+            <summary>
+            Program for ASP Net Core site
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Program.Main(System.String[])">
+            <summary>
+            Main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:PDManager.Core.Web.Program.BuildWebHost(System.String[])">
+            <summary>
+            Build Web Host
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Providers.CommunicationParamProvider">
+            <summary>
+            Communication Parameter implementation
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Providers.CommunicationParamProvider.GetParameters">
+            <summary>
+            Get Parameters
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Providers.DummyPatientProvider">
+            <summary>
+            Dummy Implementation of IPatientProvider
+            TODO: Replace with an implementation retrieving data from the repository
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Providers.DummyPatientProvider.GetPatientContacts(System.String)">
+            <summary>
+             Get Patient Contacts
+            </summary>
+            <param name="patId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.Providers.DummyPatientProvider.GetPatientIds(System.Int32,System.Int32)">
+            <summary>
+            Get Patient Ids
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Providers.LoggingProvider">
+            <summary>
+            Implentation of IGenericLogger based on ILogger of Microsoft.Extensions.Logging
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Providers.LoggingProvider.#ctor(Microsoft.Extensions.Logging.ILogger{PDManager.Core.Web.Providers.LoggingProvider})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger">Microsoft.Extensions.Logging Logger</param>
+        </member>
+        <member name="M:PDManager.Core.Web.Providers.LoggingProvider.LogError(System.Exception,System.String)">
+            <summary>
+            Log Error
+            </summary>
+            <param name="ex"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:PDManager.Core.Web.DummyCredentialProvider">
+            <summary>
+            Dymmy Credential Provider
+            In Case Data Proxy is used where data are collected from a web api with authentication
+            then credentials are provided by IProxyCredientialsProvider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.DummyCredentialProvider.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:PDManager.Core.Web.DummyCredentialProvider.GetPassword">
+            <summary>
+            password
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Web.DummyCredentialProvider.GetUserName">
+            <summary>
+            User name
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Web.Startup">
+            <summary>
+            Startup class of ASP Net Core site
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:PDManager.Core.Web.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Web.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            ConfigureServices.This method gets called by the runtime. Use this method to add services to the container. 
+            </summary>
+            <param name="services"></param>        
+        </member>
+        <member name="M:PDManager.Core.Web.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Configure
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>s
+        </member>
+        <member name="T:PDManager.Core.Jobs.JobFactory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Jobs.JobFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            Job Factory
+            </summary>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:PDManager.Core.Jobs.JobFactory.GetJobs">
+            <summary>
+            Get Jobs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Web.Controllers.JobController">
+            <summary>
+            Job Controller
+            </summary>
+        </member>
+        <member name="M:PDManager.Web.Controllers.JobController.#ctor(PDManager.Core.Common.Interfaces.IJobFactory)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="jobFactory"></param>
+        </member>
+        <member name="M:PDManager.Web.Controllers.JobController.Start">
+            <summary>
+            start Job Scheduling
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

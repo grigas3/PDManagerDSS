@@ -1,0 +1,924 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PDManager.Core.Common</name>
+    </assembly>
+    <members>
+        <member name="T:PDManager.Core.Common.Enums.AlertLevel">
+            <summary>
+            Alert Level
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Enums.AlertLevel.None">
+            <summary>
+            //No Alert
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Enums.AlertLevel.Low">
+            <summary>
+            Low Level Alert
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Enums.AlertLevel.Medium">
+            <summary>
+            Medium Level Alert
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Enums.AlertLevel.High">
+            <summary>
+            High Level Alert
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Exceptions.AggrDefinitionNotFoundException">
+            <summary>
+            Aggregation Definition not found exception
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Exceptions.AggrDefinitionNotFoundException.DefFile">
+            <summary>
+            Definition File not found
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Exceptions.AggrDefinitionNotFoundException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="defFile">Definition file</param>
+        </member>
+        <member name="T:PDManager.Core.Common.Exceptions.AggrThresholdTypeNotSupported">
+            <summary>
+            Exception thrown for not support threshold type
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Exceptions.DSSDefinitionNotFoundException">
+            <summary>
+            Aggregation Definition not found exception
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Exceptions.DSSDefinitionNotFoundException.DefFile">
+            <summary>
+            Definition File not found
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Exceptions.DSSDefinitionNotFoundException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="defFile">Definition file</param>
+        </member>
+        <member name="T:PDManager.Core.Common.Exceptions.NamespaceDoc">
+            <summary>
+            PDManager Common Exceptions
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Extensions.CommonModelExtensions">
+            <summary>
+            Common Model Extensions
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.CommonModelExtensions.GetClinicalInfoList(PDManager.Core.Common.Models.PDPatient)">
+            <summary>
+            Get Clinical Information List
+            The basic info are the Code and the Value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Extensions.DateTimeExtensions">
+            <summary>
+            Datetime extensions for conversion to Unix timestamps
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.DateTimeExtensions.ToUnixTimestamp(System.DateTime)">
+            <summary>
+            C# DateTime to Java
+            </summary>
+            <param name="dateTime">C# DateTime</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.DateTimeExtensions.ToUnixTimestampMilli(System.DateTime)">
+            <summary>
+            C# DateTime to Java
+            </summary>
+            <param name="dateTime">C# DateTime</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.DateTimeExtensions.FromUnixTimestampMilli(System.Double)">
+            <summary>
+            Java Milliseconds (Unix Time) to C# DateTime
+            </summary>
+            <param name="javaTimeStamp">Unix Timestamp</param>
+            <returns>C# Datetime</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.DateTimeExtensions.FromUnixTimestamp(System.Double)">
+            <summary>
+            Java Seconds (Unix Time) to C# DateTime
+            </summary>
+            <param name="javaTimeStamp">Unix Timestamp</param>
+            <returns>C# Datetime</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Extensions.LinqExtensions">
+            <summary>
+            Linq Extensions
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Extensions.LinqExtensions.ContainsAll``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Contains All
+            Checks whether a list contains all values
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Extensions.NamespaceDoc">
+            <summary>
+            PDManager Common Extensions
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IAggrDefinitionProvider">
+            <summary>
+            A service exposing a dictionary to get the correct aggregation definition file from a 
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IAggrDefinitionProvider.GetJsonConfigFromCode(System.String)">
+            <summary>
+            Get Aggregation Confing in Json format for specific observation code
+            </summary>
+            <param name="code">Meta observation code</param>
+            <returns>Path of definiton file</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IAggregator">
+            <summary>
+            Aggregator interface
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IAggregator.Run(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String)">
+            <summary>
+            Run Aggregation for specific patient and code
+            </summary>
+            <param name="patientId">Patient Id</param>
+            <param name="code">Meta Observation Code</param>
+            <param name="lastExecutionTime">Last Execution time</param>
+            <param name="aggregationType"></param>
+            <param name="filterType"></param>
+            <returns>List of observations</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IAlertEvaluator">
+            <summary>
+            Alert Evaluator Interface
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IAlertEvaluator.GetAlertLevel(PDManager.Core.Common.Interfaces.IAlertInput,System.String)">
+            <summary>
+            Get Alert Level
+            </summary>
+            <param name="alert">Alert Input</param>
+            <param name="patientId">Patient Id</param>
+            <returns>0: No Alert, 1: Low Priority Alert, 2: Medium Priority Alert, 3: High Priority Alert</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IAlertInput">
+            <summary>
+            Alert Evaluation required input
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.Name">
+            <summary>
+            Alert Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.Message">
+            <summary>
+            Alert Message
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.HighPriorityValue">
+            <summary>
+            High Priority value
+            High Priority value corresponds to high priority alerts
+            If this rule is fired then a notification should be given to the corresponding physician
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            If this value is null then this is ignored
+            
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.MediumPriorityValue">
+            <summary>
+            Medium Priority value
+            Medium Priority value corresponds to medium priority alerts
+            If this rule is fired then a notification should be given to the corresponding physician WHEN he enters the mobile app
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is null then this is ignored      
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.LowPriorityValue">
+            <summary>
+            Low Priority value
+            Low Priority value corresponds to low priority alerts
+            If this rule is fired then this alert is visible only from the alerts tile of PDManger mobile app
+            If the TargetValue is numeric then this value should be a double number with 0.XX format
+            If this value is null then this is ignored
+            Medium and High Priority are also visible in the patient's alert tile.
+            If this value is string then it can be comma (;) separated to allow multiple values
+            <example>
+            moderate;severe
+            </example>
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.TargetValueCode">
+            <summary>
+            Target value code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.TargetValueSource">
+            <summary>
+            Source of Target Value Possible values:
+            1) observation
+            2) clinical
+            3) metaobservation
+            4) dss
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.TargetValueNumeric">
+            <summary>
+            True if target value is numeric otherwise is categorical
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IAlertInput.AggregationPeriodDays">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IAlertInputProvider">
+            <summary>
+            Alert Input Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IAlertInputProvider.GetAlertInputs">
+            <summary>
+            Get Alert Inputs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.ICommunicationParamProvider">
+            <summary>
+            Communication Param Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.ICommunicationParamProvider.GetParameters">
+            <summary>
+            Get Parameters
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IDataProxy">
+            <summary>
+            Data Proxy Interface for Get/Insert data to PDManager Cloud Repository
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PDManager.Core.Common.Interfaces.IDataProxy.Insert``1(``0)" -->
+        <member name="M:PDManager.Core.Common.Interfaces.IDataProxy.Get``1(System.Int32,System.Int32,System.String,System.String,System.String,System.Int64)">
+            <summary>
+            Get a list of items from the main repository
+            </summary>
+            <typeparam name="T">The type of item</typeparam>
+            <param name="take">Take</param>
+            <param name="skip">Skip</param>
+            <param name="filter">Filter (Defined per type)</param>
+            <param name="sort">Sort property</param>
+            <param name="sortdir">Sort direction</param>
+            <param name="lastmodified">Last modified (for syncing)</param>
+            <returns>List of T items</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IDataProxy.Get``1(System.String)">
+            <summary>
+            Get a single item
+            </summary>
+            <typeparam name="T">Item</typeparam>
+            <param name="id">Item id</param>        
+            <returns>A single T item</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IDSSDefinitionProvider.GetJsonConfigFromCode(System.String)">
+            <summary>
+            Get Aggregation Confing in Json format for specific observation code
+            </summary>
+            <param name="code">Meta observation code</param>
+            <returns>Path of definiton file</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IDSSRunner">
+            <summary>
+            DSS Runner
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IDSSRunner.Run(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Run (used for testing) with a dictionary of values
+            </summary>
+            <param name="configJson">DSS Config in Json format</param>
+            <param name="values"></param>
+            <returns>List of DSS Values</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IDSSRunner.Run(System.String,System.String)">
+            <summary>
+            Run DSS
+            </summary>
+            <param name="patientId"> patient Id</param>
+            <param name="dssConfigFile">DSS Config file (Json)</param>
+            <returns>List of DSS Values</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IDSSRunner.GetInputValues(System.String,System.String)">
+            <summary>
+            Get Input Values for DSS model of specific patient
+            </summary>
+            <param name="patientId"> patient Id</param>
+            <param name="dssConfigFile">DSS Config file (Json)</param>
+            <returns>List of DSS Values</returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IDSSValueMapping">
+            <summary>
+            Interface for DSS Value Mapping from PDManager Observation to Dexi
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IDSSValueMapping.Name">
+            <summary>
+            Name in Dexi Model
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IDSSValueMapping.DefaultValue">
+            <summary>
+            Default Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IDSSValueMapping.ValueType">
+            <summary>
+            Numerical/Categorical
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IDSSValueMapping.Numeric">
+            <summary>
+            If Variable is numeric
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IGenericLogger">
+            <summary>
+            Generic Logger
+            Main Logging is based on Microsoft Extensions Logging
+            However in order to avoid adding reference to Extensions in Unit Testing we create a wrapper over that
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IGenericLogger.LogError(System.Exception,System.String)">
+            <summary>
+            Log Error
+            </summary>
+            <param name="ex"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IJobFactory">
+            <summary>
+            Job Factory
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.INotificationService">
+            <summary>
+            Notification Service interface
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.INotificationService.SendMessage(PDManager.Core.Common.Interfaces.IPDMessage)">
+            <summary>
+            Send message
+            </summary>
+            <param name="message">Message parameter</param>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IObservation">
+            <summary>
+            Basic interface with the minimum number of properties an Observation should have
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IObservation.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IObservation.CodeId">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IObservation.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IPatientProvider">
+            <summary>
+            Patient Provider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IPatientProvider.GetPatientIds(System.Int32,System.Int32)">
+            <summary>
+            Get Patient Ids
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IPDMessage">
+            <summary>
+            Base PD Message interface
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.Sender">
+            <summary>
+            Sender identification
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.SenderUri">
+            <summary>
+            PD Manager Sender Uri
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.Receiver">
+            <summary>
+            Receiver
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.ReceiverUri">
+            <summary>
+            Receiver
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.MessageType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.Body">
+            <summary>
+            Message Body
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Interfaces.IPDMessage.Subject">
+            <summary>
+            Message Subject
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IProxyCredientialsProvider">
+            <summary>
+            Get Credentials for DataProxy
+            This is used in order to get access token for B3D Web API
+            Important! DataProxy should call directly MongoDb in integrated version
+            and this interface may not be required    
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IProxyCredientialsProvider.GetUserName">
+            <summary>
+            Get Test UserName
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IProxyCredientialsProvider.GetPassword">
+            <summary>
+            Get Test Password
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.IRecurringJob">
+            <summary>
+            Recurring Job
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IRecurringJob.Run">
+            <summary>
+            Run Job
+            </summary>
+            <returns>True if no error occured otherwise false</returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Interfaces.IRecurringJob.GetId">
+            <summary>
+            Get Job Id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Interfaces.NamespaceDoc">
+            <summary>
+            PDManager Common Interfaces
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.CommunicationParameters">
+            <summary>
+            Communication Parameters
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.EmailUserName">
+            <summary>
+            Email account user Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.EmailPasword">
+            <summary>
+            Email account password
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.EmailServer">
+            <summary>
+            Email Server
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.EmailPort">
+            <summary>
+            Email Port
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.SMSUserName">
+            <summary>
+            SMS (Yuboto) user name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.SMSPasword">
+            <summary>
+            SMS (Yuboto) password
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.SMSKey">
+            <summary>
+            SMS (Yuboto) key
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.GCMAppID">
+            <summary>
+            GCM Application iD
+            Retrieved from Google developer Console
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.FCMAppID">
+            <summary>
+            FCM Application iD
+            Retrieved from Google developer Console
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.FCMSenderID">
+            <summary>
+            GCM Sender iD
+            Retrieved from Google developer Console
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.CommunicationParameters.GCMSenderID">
+            <summary>
+            GCM Sender iD
+            Retrieved from Google developer Console
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.DSSInput">
+            <summary>
+            PDManager DSS Input
+            This is a helper class used to serialize DSS input from a Html Form to test the DSS functionality
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.DSSInput.ModelId">
+            <summary>
+            The DSS Model Id stored in the repository
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.DSSInput.Input">
+            <summary>
+            Json Representation of Dictionary with key and value
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.DSSValue">
+            <summary>
+            DSS Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.DSSValue.Name">
+            <summary>
+            DSS Name for variable
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.DSSValue.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.DSSValue.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.DSSValueCollection">
+            <summary>
+            DSS Value Collection
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.NamespaceDoc">
+            <summary>
+            PDManager Common Models
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.NotificationContact">
+            <summary>
+            Notification Contact
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.NotificationContact.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.NotificationContact.Uri">
+            <summary>
+            Contact Device Uri. This is the device uri  for GCM or FCM notifications, email for Email notifications and phone number for SMS notifications
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.NotificationContact.PreferredMessageType">
+            <summary>
+            User or system preferred message type
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.PDMessage">
+            <summary>
+            A core message implementation
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.Sender">
+            <summary>
+            Sender identification
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.SenderUri">
+            <summary>
+            PD Manager Sender Uri
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.Receiver">
+            <summary>
+            Receiver
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.ReceiverUri">
+            <summary>
+            Receiver
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.MessageType">
+            <summary>
+            Message Type
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.Body">
+            <summary>
+            Message Body
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDMessage.Subject">
+            <summary>
+            Message Subject
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.PDMessageType">
+            <summary>
+            Message Type enum
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Models.PDMessageType.SMS">
+            <summary>
+            SMS Notification
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Models.PDMessageType.EMAIL">
+            <summary>
+            EMAIL Notification
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Models.PDMessageType.GCM">
+            <summary>
+             Google Cloud Notification
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.Common.Models.PDMessageType.FCM">
+            <summary>
+            Firebase Notification
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Models.PDPatient">
+            <summary>
+            PD Patient
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDPatient.Id">
+            <summary>
+            Patient Id
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDPatient.ClinicalInfo">
+            <summary>
+            Clinical Info
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDPatient.MedicalHistory">
+            <summary>
+            Medical History
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDPatient.BirthDate">
+            <summary>
+            Birth Date
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Models.PDPatient.PDAppearance">
+            <summary>
+            PD Appearance
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Results.LoginResult">
+            <summary>
+            Login Result
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Results.LoginResult.access_token">
+            <summary>
+            Access token
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Results.LoginResult.token_type">
+            <summary>
+            Token Type
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Results.LoginResult.expires_in">
+            <summary>
+            Expires in
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Common.Results.LoginResult.success">
+            <summary>
+            Succes 
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.NamespaceDoc">
+            <summary>
+            PDManager Common 
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Common.Testing.DummyCredentialProvider">
+            <summary>
+            Dymmy Credential Provider
+            In Case Data Proxy is used where data are collected from a web api with authentication
+            then credentials are provided by IProxyCredientialsProvider
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.Common.Testing.DummyCredentialProvider.GetPassword">
+            <summary>
+            password Removed values for security
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.Common.Testing.DummyCredentialProvider.GetUserName">
+            <summary>
+            User name (Removed values for security)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.Common.Testing.NamespaceDoc">
+            <summary>
+            PDManager Common Testing Helper Classes
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.ClinicalInfo">
+            <summary>
+            Clinical Information stored in the Patient ClinicalInfo Entry
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Name">
+            <summary>
+            Clinical Information Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Code">
+            <summary>
+            Clinical Information Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Value">
+            <summary>
+            Clinical Information
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Notes">
+            <summary>
+            Notes
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Category">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Priority">
+            <summary>
+            Priority
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.CreatedBy">
+            <summary>
+            Created By
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.ClinicalInfo.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.ClinicalInfoCollection">
+            <summary>
+            Clinical Info Collection
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.PDObservation">
+            <summary>
+            PD_Manager Observation
+            This observation is used internaly in PD_Manager for fast and low footprint  data exchange.
+            This observation has to to with symptom evaluations performed in mobile phone or other IoT devices
+            The code is unique and the Code has all the necessairy information to convert this information
+            to a full observation according to FHIR specificiation.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.PDObservation.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.PDObservation.Value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.PDObservation.Weight">
+            <summary>
+            Value Weight
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.PDObservation.Category">
+            <summary>
+            Observation Category
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.BasePDObservation">
+            <summary>
+            Base PD Observation
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BasePDObservation.PatientId">
+            <summary>
+            Patient Id
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BasePDObservation.CodeId">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BasePDObservation.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.BaseAggPDObservation">
+            <summary>
+            Base class for Fast Aggregations allowing incremental update
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BaseAggPDObservation.Q2">
+            <summary>
+            E[XX]
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BaseAggPDObservation.Q1">
+            <summary>
+            E[XX]
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BaseAggPDObservation.N">
+            <summary>
+            Number of samples
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.Models.BaseAggPDObservation.sTimestamp">
+            <summary>
+            Timestamp of first observation
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.Models.PDObservationCollection">
+            <summary>
+            Collection of PD Observations
+            </summary>
+        </member>
+    </members>
+</doc>

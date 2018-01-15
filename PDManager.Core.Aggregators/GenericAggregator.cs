@@ -39,7 +39,7 @@ namespace PDManager.Core.Aggregators
         private readonly IAggrDefinitionProvider _aggrDefinitionDictionary;
         private const int MAXTAKE = 1000;
 
-        private AggrConfigDefinition _definition;
+        private AggrConfig _definition;
 
         #endregion
 
@@ -66,9 +66,9 @@ namespace PDManager.Core.Aggregators
 
 
 
-        private AggrConfigDefinition LoadAggrDefinition(string name)
+        private AggrConfig LoadAggrDefinition(string name)
         {
-            return AggrConfigDefinition.LoadFromFile(name);
+            return AggrConfig.LoadFromFile(name);
 
         }
 
@@ -116,7 +116,7 @@ namespace PDManager.Core.Aggregators
             // Get Definition File Name from AggrDefinitionDictionary
 
             if (_definition == null)
-                _definition = AggrConfigDefinition.FromString(_aggrDefinitionDictionary.GetJsonConfigFromCode(code));
+                _definition = AggrConfig.FromString(_aggrDefinitionDictionary.GetJsonConfigFromCode(code));
 
             if (_definition == null)
             {
@@ -176,7 +176,7 @@ namespace PDManager.Core.Aggregators
         /// <param name="timestamp">Timestamp</param>
         /// <param name="observations">Observations</param>
         /// <returns></returns>
-        private IEnumerable<IObservation> PerformAggregation(AggrConfigDefinition definition, string patientId, long timestamp, IEnumerable<PDObservation> observations)
+        private IEnumerable<IObservation> PerformAggregation(AggrConfig definition, string patientId, long timestamp, IEnumerable<PDObservation> observations)
         {
 
             //-----------------
@@ -232,12 +232,12 @@ namespace PDManager.Core.Aggregators
         /// <summary>
         /// Total Aggregation
         /// </summary>
-        /// <param name="definition"></param>
-        /// <param name="patientId"></param>
-        /// <param name="timestamp"></param>
-        /// <param name="observations"></param>
+        /// <param name="definition">Aggregation definition</param>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="timestamp">Timestamp</param>
+        /// <param name="observations">Observations</param>
         /// <returns></returns>
-        private IEnumerable<IObservation> PerformTotalAggregation(AggrConfigDefinition definition,string patientId,long timestamp,IEnumerable<PDObservation> observations)
+        private IEnumerable<IObservation> PerformTotalAggregation(AggrConfig definition,string patientId,long timestamp,IEnumerable<PDObservation> observations)
         {
                    
             double v = definition.Beta;
@@ -258,10 +258,11 @@ namespace PDManager.Core.Aggregators
         /// <summary>
         /// Day Aggregation
         /// </summary>
-        /// <param name="definition"></param>
-        /// <param name="observations"></param>
+        /// <param name="definition">Aggregation Definition</param>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="observations">Observations</param>
         /// <returns></returns>
-        private IEnumerable<IObservation> PerformDayAggregation(AggrConfigDefinition definition, string patientId, IEnumerable<PDObservation> observations)
+        private IEnumerable<IObservation> PerformDayAggregation(AggrConfig definition, string patientId, IEnumerable<PDObservation> observations)
         {
 
             // Get Min and Max Date
@@ -292,7 +293,7 @@ namespace PDManager.Core.Aggregators
             return metaObservations;
           
         }
-        private void Thresholding(AggrConfigDefinition definition, IEnumerable<IObservation> metaObservations)
+        private void Thresholding(AggrConfig definition, IEnumerable<IObservation> metaObservations)
         {
             var mean = metaObservations.Select(e => e.Value).DefaultIfEmpty(0).Average();
             var q2 = metaObservations.Select(e => e.Value * e.Value).DefaultIfEmpty(0).Average();
@@ -316,7 +317,6 @@ namespace PDManager.Core.Aggregators
                 }
 
                 //New observation timestamp
-
                 foreach (var obs in metaObservations)
                 {
 
@@ -330,11 +330,11 @@ namespace PDManager.Core.Aggregators
         /// <summary>
         /// 2nd Level Aggregation
         /// </summary>
-        /// <param name="definition"></param>
-        /// <param name="patientId"></param>
-        /// <param name="metaObservations"></param>
+        /// <param name="definition">Aggregation Definition</param>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="metaObservations">Observations</param>
         /// <returns></returns>
-            private IEnumerable<IObservation> MetaAggregation(AggrConfigDefinition definition, string patientId, IEnumerable<IObservation> metaObservations)
+            private IEnumerable<IObservation> MetaAggregation(AggrConfig definition, string patientId, IEnumerable<IObservation> metaObservations)
         {
            
 
@@ -407,20 +407,14 @@ namespace PDManager.Core.Aggregators
         /// <summary>
         /// Time Aggregation
         /// </summary>
-        /// <param name="definition"></param>
-        /// <param name="observations"></param>
+        /// <param name="definition">Aggregation Definition</param>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="observations">Observations</param>
         /// <returns></returns>
-        private IEnumerable<IObservation> PerformTimeAggregation(AggrConfigDefinition definition,  string patientId, IEnumerable<PDObservation> observations)
+        private IEnumerable<IObservation> PerformTimeAggregation(AggrConfig definition,  string patientId, IEnumerable<PDObservation> observations)
         {
 
-            List<IObservation> metaObservations = new List<IObservation>();
-            double mean = 0;
-            double q2 = 0;
-            int n = 0;
-            int n1 = 0;
-            double std = 0;
-          //  var startT = observations.Select(e => e.Timestamp).DefaultIfEmpty().Min();
-//            var endT = observations.Select(e => e.Timestamp).DefaultIfEmpty().Max();
+            List<IObservation> metaObservations = new List<IObservation>();        
             var minT = observations.Select(e => e.Timestamp).DefaultIfEmpty().Min();
             var maxT = observations.Select(e => e.Timestamp).DefaultIfEmpty().Max();
 
@@ -457,47 +451,15 @@ namespace PDManager.Core.Aggregators
                 }
 
                 if (n0 > 0)
-                {
-                  
-                    //mean += v;
-                    //q2 += v * v;
-                    //n++;
+                {                 
+                
                     metaObservations.Add(new PDObservation() { CodeId = definition.Code, PatientId = patientId, Timestamp = j, Value = v, Weight = n0 });
                 }
 
             }
 
             return metaObservations;
-            //mean /= n;
-            //std = q2 / n - mean * mean;
-
-
-            ////If not thresholding required return mean
-            //if (!definition.Threshold)
-            //{
-            //    return metaObservations;
-            //}
-
-            ////Set threshold based on threshold type and value
-            //var threshold = definition.ThresholdValue;
-            //n1 = 0;
-            //if (definition.ThresholdType == "std")
-            //{
-            //    threshold = mean + definition.ThresholdValue * std;
-            //}
-            //for (long i = startT; i < endT; i += timeInterval)
-            //{
-            //    double v = definition.Beta;
-            //    foreach (var c in definition.Variables)
-            //    {
-            //        var v1 = c.Weight * observations.Where(e => e.Timestamp >= i && e.Timestamp < i + timeInterval).Select(e => e.Value).DefaultIfEmpty().Average();
-            //        n1 += (v1 > threshold) ? 1 : 0;
-            //    }
-            //}
-
-            //return new List<IObservation>() { new PDObservation() { CodeId = definition.Code, PatientId = patientId, Timestamp = endT, Value = metaObservations.Select(e => (e.Value > threshold) ? 1 : 0).DefaultIfEmpty().Average() } };
-            
-
+          
         }
 
 

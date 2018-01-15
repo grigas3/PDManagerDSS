@@ -14,6 +14,7 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>PDManager.Core.Web</RootNamespace>
     <AssemblyName>PDManager.Core.Web</AssemblyName>
+    <UserSecretsId>ebf980b9-3502-43ca-a2c2-d6bd7548043e</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,7 +22,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HangFire" Version="1.6.17" />
+    <PackageReference Include="HangFire.Core" Version="1.6.17" />
+    <PackageReference Include="Hangfire.MemoryStorage.Core" Version="1.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +44,10 @@
     <ProjectReference Include="..\PDManager.Core.Common\PDManager.Core.Common.csproj" />
     <ProjectReference Include="..\PDManager.Core.DSS\PDManager.Core.DSS.csproj" />
     <ProjectReference Include="..\PDManager.Core.Services\PDManager.Core.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Jobs\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

@@ -1,0 +1,1044 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PDManager.Core.DSS</name>
+    </assembly>
+    <members>
+        <member name="T:PDManager.Core.DSS.AlertEvaluationJob">
+            <summary>
+            Alert Evaluation
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluationJob.#ctor(PDManager.Core.Common.Interfaces.IAlertEvaluator,PDManager.Core.Common.Interfaces.IAlertInputProvider,PDManager.Core.Common.Interfaces.IPatientProvider,PDManager.Core.Common.Interfaces.INotificationService,PDManager.Core.Common.Interfaces.IGenericLogger)">
+            <summary>
+            Alert Evaluation Job
+            </summary>
+            <param name="alertEvaluator"></param>
+            <param name="alertInputProvider"></param>
+            <param name="patientProvider"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluationJob.Run">
+            <summary>
+            Run Job
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluationJob.GetId">
+            <summary>
+            Get Job Id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.AlertEvaluator">
+            <summary>
+            Alert Evaluator
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluator.#ctor(PDManager.Core.Common.Interfaces.IDSSRunner,PDManager.Core.Common.Interfaces.IAggregator,PDManager.Core.Common.Interfaces.IDataProxy,PDManager.Core.Common.Interfaces.IAggrDefinitionProvider,PDManager.Core.Common.Interfaces.IDSSDefinitionProvider)">
+            <summary>
+            Alert Evaluator
+            </summary>
+            <param name="dssRunner"></param>
+            <param name="aggregator"></param>
+            <param name="dataProxy"></param>
+            <param name="aggrDefinitionProvider"></param>
+            <param name="dSSDefinitionProvider"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluator.ApplyFilter(PDManager.Core.Common.Interfaces.IAlertInput,System.Double)">
+            <summary>
+            Apply Filter for numeric values
+            </summary>
+            <param name="alert"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluator.ApplyFilter(PDManager.Core.Common.Interfaces.IAlertInput,System.String)">
+            <summary>
+            Apply Filter for numeric values
+            </summary>
+            <param name="alert"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.AlertEvaluator.GetAlertLevel(PDManager.Core.Common.Interfaces.IAlertInput,System.String)">
+            <summary>
+            Get Alert Level
+            </summary>
+            <param name="alert"></param>
+            <param name="patientId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Distribution">
+            <summary>
+            Distribution consists of:
+            - double[] distribution
+            - double cumulative: holds some cumulative value, interpretation-dependent
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Item(System.Int32)">
+            <summary>
+            Access to individual distribution elements
+            </summary>
+            <param name="index"></param>
+            <returns>distribution[index]</returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Clear">
+            <summary>
+            Clear distribution: All elements and cumulative are set to 0.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Full">
+            <summary>
+            Fully populate distribution: All elements and cumulatve are set to 1.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Uniform">
+            <summary>
+            Create a uniform distribution with respect to the number of values. Cumulative is set to 1.0.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Single">
+            <summary>
+            Get/Set: Distribution interpreted as a single integer number: All elements are 0.0, except distribution[Single]==1.0.
+            Get: Returns -1 if distribution does not contain a single integer.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.CountMembers">
+            <summary>
+            Counts the number of distribution elements not equal to 0.0.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Set">
+            <summary>
+            Get/Set: Distribution interpreted as a set of numbers
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Sum">
+            <summary>
+            Get the sum of distribution values.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Max">
+            <summary>
+            Get the maximum of distribution values.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.Average">
+            <summary>
+            Get the average of distribution values.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.AverageIndex">
+            <summary>
+            Get the average index of distribution values.
+            In general, this is not equal to Average.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.SumMul">
+            <summary>
+            Get the weighted sum of distribution values.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Distribution.SumDiv">
+            <summary>
+            Get Sum divided by cumulative. Returns 0.0 if cumulative==0.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Add(PDManager.Core.DSS.Dexi.Distribution)">
+            <summary>
+            Add distr to current distribution values and cumulative.
+            </summary>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Add(System.Int32,System.Double,System.Double)">
+            <summary>
+            Add val to distribution[index], add cum to Cumulative.
+            </summary>
+            <param name="index"></param>
+            <param name="val"></param>
+            <param name="cum"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Add(System.Int32,System.Double)">
+            <summary>
+            Add val to distribution[index], add 1.0 to Cumulative.
+            </summary>
+            <param name="index"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Add(System.Int32)">
+            <summary>
+            Add 1.0 to distribution[index] and Cumulative.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.DivBy(System.Double)">
+            <summary>
+            Divide all elements and cumulative by by.
+            </summary>
+            <param name="by"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.MulBy(System.Double)">
+            <summary>
+            Multiply all elements and cumulative by by.
+            </summary>
+            <param name="by"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Normalize(System.Double)">
+            <summary>
+            Normalize distribution by dividing all elements by n. Cumulative is set to 1.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Normalize">
+            <summary>
+            Normalize distribution by dividing all elements by cumulative.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.NormalizeSum">
+            <summary>
+            Normalize distribution so that Sum==1.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.NormalizeMax">
+            <summary>
+            Normalize distribution so that Max==1.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.NormalizeSet">
+            <summary>
+            Convert distribution to a set by setting all non-zero elements and cumulative to 1.0.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Distribution.Increment">
+            <summary>
+            Increment distribution size by one. Insert new 0.0 element at distribution[0].
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Value">
+            <summary>
+            Value class. Represents a single (non-distributed) value that can be assigned to an attribute.
+            Contains elements:
+            - string name: value name;
+            - int ordinal: corresponding ordinal value.
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Variable">
+            <summary>
+            Variable class. Represents a named variable with assigned string value.
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.VariableList">
+            <summary>
+            VariableList class. Contains a list of Variable objects.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.VariableList.FindVariable(System.String)">
+            <summary>
+            Find variable by name.
+            </summary>
+            <param name="name"></param>
+            <returns>Variable; returns null if not found.</returns>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.VariableList.Item(System.Int32)">
+            <summary>
+            Provides access to individual variables.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.ScaleValue">
+            <summary>
+             ScaleValue class. Represents a single (non-distributed) scale value.
+             Contains elements:
+             - string name: value name;
+             - string description: value description;
+             - string group: typically "BAD", "GOOD", or "".
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Scale">
+            <summary>
+            Scale class. Scale contains a list of ScaleValues.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Scale.FindValue(System.String)">
+            <summary>
+            Find Value by name.
+            </summary>
+            <param name="name"></param>
+            <returns>If not found: null.</returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Scale.FindValue(System.Int32)">
+            <summary>
+            Find Value by ordinal number.
+            </summary>
+            <param name="ordinal"></param>
+            <returns>If out of bounds: null.</returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Rule">
+            <summary>
+            Rule class. Represents a single rule from a DEXi utility function.
+            Rule consists of two ordinal values, Low and High, which represent the lower and
+            upper bound of the rule value interval. Rule is also:
+            - Entered: explicitly entered by a DEXi user (otherwise is calculated by DEXi),
+            - Explicit: when Low==High).
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Rule.Value">
+            <summary>
+            Set Low = High = Value.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:PDManager.Core.DSS.Dexi.Attribute" -->
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.CheckCompleteness">
+            <summary>
+            Check completeness of subtree of attributes.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.CheckExplicitness">
+            <summary>
+            Check explicitness of subtree of attributes.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.AddAttributes(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Add attribute subtree to list.
+            </summary>
+            <param name="list">Current list of attributes, populated by this method</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.Affects(PDManager.Core.DSS.Dexi.Attribute)">
+            <summary>
+            Checks whether or not this attribute affects other attributes.
+            </summary>
+            <param name="att"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.Depends(PDManager.Core.DSS.Dexi.Attribute)">
+            <summary>
+            Checks whether or not this attribute depends on other attributes.
+            </summary>
+            <param name="att"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.FindLinkAttribute(System.String,System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Find an attribute from list that is a candidate for linking with attribute named name.
+            </summary>
+            <param name="name"></param>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.LinkAttribute(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Try to link this.attribute and all its descendants with candidate attributes in a list.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.ArgsToIndex(System.Int32[])">
+            <summary>
+            Converts an integer array of function argument values to rule index.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.IndexToArgs(System.Int32)">
+            <summary>
+            Converts rule index to corresponding function argument values.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.FunctionValue(System.Int32[])">
+            <summary>
+            alculate function value with respect to args[].
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.Evaluate(PDManager.Core.DSS.Dexi.Model.Evaluation,System.Boolean)">
+            <summary>
+            Evaluation of this.attribute and its descendants.
+            </summary>
+            <param name="evalType">Evaluation type.</param>
+            <param name="normalize">If true, normalize results after evaluation.</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.NormalizeDistr(PDManager.Core.DSS.Dexi.Model.Evaluation)">
+            <summary>
+            Normalize value distribution, currently assigned to this.attribute.
+            </summary>
+            <param name="evalType"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.DistributionValue(System.Int32[],PDManager.Core.DSS.Dexi.Model.Evaluation)">
+            <summary>
+            Calculate distribution value that corresponds to distribution values
+            assigned to this.attribute's descendants' distributions.
+            </summary>
+            <param name="args">Function arguments - ordinal numbers.</param>
+            <param name="evalType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.CalculateDistr(PDManager.Core.DSS.Dexi.Model.Evaluation)">
+            <summary>
+            Calculate this.attribute's value distribution with respect to value
+            distributions of its descendants in the model. This is the main
+            evaluation method for an individual attribute.
+            </summary>
+            <param name="evalType"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetValue(System.Int32)">
+            <summary>
+            Set attribute value distribution to a single integer value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetValue(PDManager.Core.DSS.Dexi.Value,System.Double,System.Boolean)">
+            <summary>
+            Set Value[value.Ordinal] to mem.
+            </summary>
+            <param name="value"></param>
+            <param name="mem">Value element membership, typically in the interval [0.0,1.0].</param>
+            <param name="clear">If true (default), clear Values before assignment.</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetValue(System.String,System.Double,System.Boolean)">
+            <summary>
+            Set Value by value name.
+            </summary>
+            <param name="value"></param>
+            <param name="mem">Value element membership, , typically in the interval [0.0,1.0].</param>
+            <param name="clear">If true (default), clear Values before assignment.</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetValue(System.Int32,System.Double,System.Boolean)">
+            <summary>
+            Set Values[value] to mem.
+            </summary>
+            <param name="value"></param>
+            <param name="mem">Value element membership, typically in the interval [0.0,1.0]. Default 1.0.</param>
+            <param name="clear">If true (default), clear Values before assignment.</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.ClearValues">
+            <summary>
+            Set the current value distribution to null.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetDistr(PDManager.Core.DSS.Dexi.Distribution)">
+            <summary>
+            Set Values to distr.
+            </summary>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.SetDistr(System.Double[])">
+            <summary>
+            Set Values to distr.
+            </summary>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.ScaleValue(System.Int32)">
+            <summary>
+            Get the name of index-th value of the scale attached to this attribute.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.Rule(System.Int32)">
+            <summary>
+            Get index-th rule of the function attached to this attribute.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.CompareArgs(System.Int32[],System.Int32[])">
+            <summary>
+            Compare argument arrays.
+            Limitation: assumes that all scales are increasing.
+            </summary>
+            <param name="args1"></param>
+            <param name="args2"></param>
+            <returns>null if args1 and args2 are incomparable,
+            negative value if args1&lt;args2,
+            zero if args1==args2,
+            and positive value if args1>args2.</returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.CompareRules(System.Int32,System.Int32)">
+            <summary>
+            Compare arguments of rules indexed by r1 and r2.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>See CompareArgs.</returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.RuleIsConsistent(System.Int32,PDManager.Core.DSS.Dexi.Rule)">
+            <summary>
+            Tests whether rule x is consistent with respect to bounds.
+            Also, all bounds are checked to lie within the scale range.
+            </summary>
+            <param name="x"></param>
+            <param name="bounds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.RuleIsConsistent(System.Int32)">
+            <summary>
+            Tests whether rule x is consistent according to the dominance principle.
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Attribute.FunctionIsConsistent">
+            <summary>
+            Tests whether the entire function is consistent.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Attribute.FunctionString">
+            <summary>
+            Represents function with a string. String contains function values in the
+            standard order, separated by ";". Single values are represented as single
+            numbers, and intervals are represented as "low:high". Non-entered
+            function values are preceded with "-".
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Model">
+            <summary>
+            Model class. Represents a single DEXi model.
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.Model.Evaluation">
+            <summary>
+            Evaluation types, which specify hot to evaluate value distributions:
+            - SET: set-based evaluation (this is standard and the only DEXi behavior).
+            - PROB: probabilistic evaluation (extension to DEXi).
+            - FUZZY: fuzzy evaluation (extension to DEXi).
+            </summary>
+        </member>
+        <member name="F:PDManager.Core.DSS.Dexi.Model.attributes">
+            <summary>
+            List of all root attributes.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Basic">
+            <summary>
+            List of all basic attributes (model inputs).
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Aggregate">
+            <summary>
+            List of all aggregate attributes (model outputs).
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Linked">
+            <summary>
+            List of all linked attributes.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Linking">
+            <summary>
+            DEXi advanced setting: Link equal attributes.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.#ctor(System.String,System.Boolean)">
+            <summary>
+            Model constructor.
+            </summary>
+            <param name="xml">string xml: represents file name or XML string</param>
+            <param name="fromFile">if true, XML is read from file 'xml', othereise from string 'xml'</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.LinkAttributes(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Links attributes after loading the model.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.AllAttributes">
+            <summary>
+            Get all attributes contained in the model.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.ClearAttributeValues(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Sets all attributes's Values in the list to null.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.ClearInputValues">
+            <summary>
+            Sets all input attribute Values to full distributions.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.ClearOutputValues">
+            <summary>
+            Sets all aggregate and linked attribute Values to null.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValuesByNames(System.String)">
+            <summary>
+            Set the values of input attributes.
+            </summary>
+            <param name="variables"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValues(System.String[])">
+            <summary>
+            Set the values of input attributes.
+            </summary>
+            <param name="values"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValues(System.Int32[])">
+            <summary>
+            Set the values of input attributes.
+            </summary>
+            <param name="values"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.String,System.Int32,System.Double,System.Boolean)">
+            <summary>
+            Set input value of attribute given by name.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="mem"></param>
+            <param name="clear"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.String,System.String,System.Double,System.Boolean)">
+            <summary>
+            Set input value of attribute given by name.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="mem"></param>
+            <param name="clear"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.Int32,System.Int32,System.Double,System.Boolean)">
+            <summary>
+            Set input value of index-th attribute.
+            </summary>
+            <param name="index"></param>
+            <param name="value"></param>
+            <param name="mem"></param>
+            <param name="clear"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.Int32,System.String,System.Double,System.Boolean)">
+            <summary>
+            Set input value of index-th attribute.
+            </summary>
+            <param name="index"></param>
+            <param name="value"></param>
+            <param name="mem"></param>
+            <param name="clear"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.String,PDManager.Core.DSS.Dexi.Distribution)">
+            <summary>
+            Set input value of attribute name to distribution.
+            </summary>
+            <param name="name"></param>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.String,System.Double[])">
+            <summary>
+            Set input value of attribute name to distribution.
+            </summary>
+            <param name="name"></param>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.Int32,PDManager.Core.DSS.Dexi.Distribution)">
+            <summary>
+            Set input value of index-th attribute name to distribution.
+            </summary>
+            <param name="index"></param>
+            <param name="distr"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.SetInputValue(System.Int32,System.Double[])">
+            <summary>
+            Set input value of index-th attribute name to distribution.
+            </summary>
+            <param name="index"></param>
+            <param name="distr"></param>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.InputValues">
+            <summary>
+            Get a name=value[;] string of basic attribute values.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.OutputValues">
+            <summary>
+            Get a name=value[;] string of aggregate attribute values.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.OutputDistr(System.Int32)">
+            <summary>
+            Get the value distribution of the index-th aggregate (output) attribute.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.OutputDistr(System.String)">
+            <summary>
+            Get the value distribution an aggregate (output) attribute.
+            </summary>
+            <param name="name">Attribute name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.OutputValuesString(System.Int32)">
+            <summary>
+            Get value distribution of index-th output attribute.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.OutputValuesString(System.String)">
+            <summary>
+            Get value distribution of some output attribute.
+            </summary>
+            <param name="name">Attribute name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.Evaluate(PDManager.Core.DSS.Dexi.Model.Evaluation,System.Boolean)">
+            <summary>
+            Evaluate current altenative, represented by basic attributes' Values.
+            </summary>
+            <param name="evalType">Type of evaluation.</param>
+            <param name="normalize">Indicates whether or not distributions are
+            normalized before (for input attributes) and after (output attributes) evaluation.</param>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.FindAttribute(System.String)">
+            <summary>
+            Find attribute in the model by name.
+            </summary>
+            <param name="name">Attribute name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.FindAttribute(System.String,System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Find attribute by name in list.
+            </summary>
+            <param name="name"></param>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Explicitness">
+            <summary>
+            Get model explicitness, that is, whether or not all functions are 100% defined.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Completeness">
+            <summary>
+            Get model completeness, that is, whether or not all functions have a required number of rules.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.ListAttributes(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Get a string array of names of attributes in attlist.
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Inputs">
+            <summary>
+            A string array of input attribute names.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.Outputs">
+            <summary>
+            A string array of output attribute names.
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.Dexi.Model.TabbedAttributes(System.Collections.Generic.List{PDManager.Core.DSS.Dexi.Attribute})">
+            <summary>
+            Get a tab-delimited string of attribute names.
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.TabbedInputs">
+            <summary>
+            Tab-delimited list of all input attribute names.
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Dexi.Model.TabbedOutputs">
+            <summary>
+            Tab-delimited list of all input attribute names.
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Dexi.NamespaceDoc">
+            <summary>
+            PDManager DSS Dexi Implementation provided by JSI
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSCategoricalValueMapping">
+            <summary>
+            Categorical Value Mapping
+            This is used to map input categories to DSS specific values
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSCategoricalValueMapping.Name">
+            <summary>
+            Name value stored in repository
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSCategoricalValueMapping.Value">
+            <summary>
+            Value in DSS
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSCategoricalValueMapping.ValueMeaning">
+            <summary>
+            Value Meaning in DSS
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSCategoricalValueMappingList">
+            <summary>
+            Helper Class that is simple a list of DSSCategoricalValueMapping
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSConfig">
+            <summary>
+            DSS Mapping Class
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSConfig.Name">
+            <summary>
+            DSS Name
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSConfig.Version">
+            <summary>
+            DSS Version
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSConfig.DexiFile">
+            <summary>
+            Dexi File
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSConfig.Input">
+            <summary>
+            Value Mappings
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSConfig.AggregationPeriodDays">
+            <summary>
+            Aggregation Period Days (Default 30)
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSConfig.FromString(System.String)">
+            <summary>
+            Load From File
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSHelper">
+            <summary>
+            Helper methods
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSHelper.BoolToScalePN">
+            <summary>
+            UPDRS Mapping
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSHelper.ToScaleSN">
+            <summary>
+            UPDRS Mapping
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSHelper.UPDRSNumericBin">
+            <summary>
+            UPDRS Mapping
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSHelper.UPDRSNumericBin2">
+            <summary>
+            UPDRS Mapping
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSNumericBin">
+            <summary>
+            Numeric Bin
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSNumericBin.MinValue">
+            <summary>
+            Minimum numeric Value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSNumericBin.MaxValue">
+            <summary>
+            Maximum numeric value
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSNumericBin.Value">
+            <summary>
+            Value in DSS
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSNumericBin.ValueMeaning">
+            <summary>
+            Value Meaning in DSS
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSNumericBinCollection">
+            <summary>
+            Numeric Bin Collection
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.Helpers.DSSNumericMapping">
+            <summary>
+            Numeric calue mapping
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Helpers.DSSNumericMapping.Scale">
+            <summary>
+            Scale
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.Helpers.DSSNumericMapping.Bias">
+            <summary>
+            Bias
+            </summary>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSRunner">
+            <summary>
+            DSS Runner
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.#ctor(PDManager.Core.Common.Interfaces.IAggregator,PDManager.Core.Common.Interfaces.IDataProxy)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aggregator"></param>
+            <param name="dataProxy"></param>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.LoadModel(System.String)">
+            <summary>
+            Load Model from a file
+            TODO: We could cache models
+            </summary>
+            <param name="modelFileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.GetClinicalInfoList(System.String)">
+            <summary>
+            Get Clinical Information List
+            The basic info are the Code and the Value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.Run(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Run using specific values
+            </summary>        
+            <param name="configJson">Dss config in json format</param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.Evaluate(PDManager.Core.DSS.Dexi.Model,PDManager.Core.DSS.DSSConfig,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Evaluate
+            </summary>
+            <param name="model"></param>
+            <param name="config"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.GetInputValues(System.String,System.String)">
+            <summary>
+            Get Input Values for DSS model of specific patient
+            </summary>
+            <param name="patientId">Patient Id</param>
+            <param name="configJson">DSS Mapping file</param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.GetInputValues(System.String,PDManager.Core.DSS.DSSConfig)">
+            <summary>
+            
+            </summary>
+            <param name="patientId"></param>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSRunner.Run(System.String,System.String)">
+            <summary>
+            Run DSS
+            </summary>
+            <param name="patientId">Patient Id</param>
+            <param name="configJson">DSS Config as Json String file</param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.DSSValueMapping">
+            <summary>
+            DSS Value Mapping
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.Name">
+            <summary>
+            Name in Dexi Model
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.Code">
+            <summary>
+            Observation or Patient History Code
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.DefaultValue">
+            <summary>
+            Default Value.
+            This value is used if the attribute is not available in the repository
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.Source">
+            <summary>
+            Source
+            Observations or Patient History (or other?)
+            Possible values 
+            1) observation
+            2) clinical 
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.ValueType">
+            <summary>
+            Numerical/Categorical.
+            Value Type. Possible values are 'numeric' for numeric attributes 'categorical' for categorical attributes
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.CategoryMapping">
+            <summary>
+            Name Mapping.
+            Category mapping for categorical values. It maps the original value to a DEXI model one
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.NumericBins">
+            <summary>
+            Numeric Bins Mapping.
+            Numeric bins are use to map continuous values to specific DEXI discrete input values
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.NumericMapping">
+            <summary>
+            Numeric Mapping
+            </summary>
+        </member>
+        <member name="P:PDManager.Core.DSS.DSSValueMapping.Numeric">
+            <summary>
+            Numeric type
+            </summary>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSValueMapping.GetCategoryMapping(System.String)">
+            <summary>
+            Cet DEXI Category
+            </summary>
+            <param name="cat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PDManager.Core.DSS.DSSValueMapping.GetNumericMapping(System.Double)">
+            <summary>
+            Get Numeric Mapping
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PDManager.Core.DSS.NamespaceDoc">
+            <summary>
+            PDManager DSS 
+            </summary>
+        </member>
+    </members>
+</doc>

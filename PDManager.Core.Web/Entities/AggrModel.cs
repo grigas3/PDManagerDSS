@@ -16,7 +16,7 @@ namespace PDManager.Core.Web.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// DSS Title
+        /// DSS Name
         /// </summary>
         [StringLength(100)]
         public string Name { get; set; }

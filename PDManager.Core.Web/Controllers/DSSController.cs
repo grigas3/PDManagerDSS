@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 using PDManager.Core.Common.Interfaces;
+using PDManager.Core.DSS;
 using PDManager.Core.Web.Entities;
 using PDManager.Core.Web.Extensions;
 using System;
@@ -100,6 +103,21 @@ namespace PDManager.Core.Web.Controllers
 
         }
 
+
+        /// <summary>
+        /// Get DSS Definition Schema
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("schema")]
+        public IActionResult GetSchema()
+        {
+            JSchemaGenerator generator = new JSchemaGenerator();
+
+            JSchema schema = generator.Generate(typeof(DSSConfig));
+
+            return Json(schema.ToString());
+        }
+
         /// <summary>
         /// Post DSS Model
         /// Call: POST api/dss/5
@@ -167,6 +185,7 @@ namespace PDManager.Core.Web.Controllers
                 {
 
                     Name = "YesNo",
+                    Code= "MedicationChange",
                     Description = "YesNo Model",
                     Config = config,
                     CreatedBy = "admin",

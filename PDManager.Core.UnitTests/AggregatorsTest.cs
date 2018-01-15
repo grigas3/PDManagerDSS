@@ -22,9 +22,9 @@ namespace PDManager.Core.UnitTests
             DummyAggrDefinitionProvider aggrProvider = new DummyAggrDefinitionProvider();
             var def = aggrProvider.GetConfigFromCode("UPDRS");
 
-            AggrConfigDefinition.SaveToFile(def, "updrs.json");
+            AggrConfig.SaveToFile(def, "updrs.json");
 
-            var defTarget=AggrConfigDefinition.LoadFromFile( "updrs.json");
+            var defTarget=AggrConfig.LoadFromFile( "updrs.json");
 
             Assert.AreEqual(def.AggregationType, defTarget.AggregationType);
 

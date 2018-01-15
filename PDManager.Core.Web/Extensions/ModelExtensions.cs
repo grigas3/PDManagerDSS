@@ -4,6 +4,8 @@ using PDManager.Core.Common.Interfaces;
 using PDManager.Core.Common.Models;
 using PDManager.Core.DSS;
 using PDManager.Core.Web.Entities;
+using System;
+using System.IO;
 
 namespace PDManager.Core.Web.Extensions
 {
@@ -37,7 +39,7 @@ namespace PDManager.Core.Web.Extensions
         /// <returns></returns>
         public static DSSConfig GetDSSConfig(string dssConfigFile)
         {
-            var config = DSSConfig.LoadFromFile(dssConfigFile);
+            var config = LoadFromFile(dssConfigFile);
             return config;
 
 
@@ -45,16 +47,47 @@ namespace PDManager.Core.Web.Extensions
 
 
 
+        /// <summary>
+        /// Load From File
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static DSSConfig LoadFromFile(string file)
+        {
+            DSSConfig ret = null;
+            StreamReader fstr = null;
+            JsonTextReader reader = null;
+            try
+            {
+                fstr = new StreamReader(file);
+                reader = new JsonTextReader(fstr);
+                JsonSerializer serializer = new JsonSerializer();
+                ret = serializer.Deserialize<DSSConfig>(reader);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+                if (fstr != null)
+                    fstr.Dispose();
+            }
+
+            return ret;
+        }
 
         /// <summary>
         /// Get Config from deserializing model config in Json format
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static AggrConfigDefinition GetConfig(this AggrModel model)
+        public static AggrConfig GetConfig(this AggrModel model)
         {
 
-            var dssConfig = JsonConvert.DeserializeObject<AggrConfigDefinition>(model.Config);
+            var dssConfig = JsonConvert.DeserializeObject<AggrConfig>(model.Config);
             return dssConfig;
 
 
@@ -67,9 +100,9 @@ namespace PDManager.Core.Web.Extensions
         /// </summary>
         /// <param name="aggrConfigFile"></param>
         /// <returns></returns>
-        public static AggrConfigDefinition GetAggrConfig(string aggrConfigFile)
+        public static AggrConfig GetAggrConfig(string aggrConfigFile)
         {
-            var config = AggrConfigDefinition.LoadFromFile(aggrConfigFile);
+            var config = AggrConfig.LoadFromFile(aggrConfigFile);
             return config;
 
 

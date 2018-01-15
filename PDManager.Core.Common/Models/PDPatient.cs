@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PDManager.Core.Models
+namespace PDManager.Core.Common.Models
 {
     /// <summary>
     /// PD Patient
@@ -31,5 +31,10 @@ namespace PDManager.Core.Models
         /// PD Appearance
         /// </summary>
         public DateTime? PDAppearance { get; set; }
+
+
+
+      
+
     }
 }

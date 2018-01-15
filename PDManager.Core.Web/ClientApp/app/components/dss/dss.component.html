@@ -6,6 +6,7 @@
 <div class="btn-group">
     <button class="btn btn-danger" (click)="addDummyData();">Add Dummy</button>
     <button class="btn btn-success" (click)="refresh();">Reload</button>
+    <button class="btn btn-success" (click)="getSchema();">Get Schema</button>
 </div>
 <div class="row">
     <div class="col-sm-12">
@@ -21,7 +22,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let dss of dssModels">
-                    
+
                     <td>{{ dss.id }}</td>
                     <td>{{ dss.title }}</td>
                     <td>{{ dss.description }}</td>
@@ -29,14 +30,17 @@
 
                     <td>
                         <a class="btn btn-success" [routerLink]="['/dssvalue',dss.id]">Test Form</a>
-                        
-                        
+
+
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    </div>
+</div>
+
+
+
 
     <div class="row">
         <div class="col-sm-12">
