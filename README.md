@@ -12,6 +12,10 @@ Technologies used to develop this site:
 * [Swagger](https://swagger.io/). Swagger is the world’s largest framework of API developer tools for the OpenAPI Specification(OAS), enabling development across the entire API lifecycle, from design and documentation, to test and deployment.Windows Service or separate process required. The [Swashbuckle.AspNetCore]|(https://github.com/domaindrivendev/Swashbuckle.AspNetCore) implementation is used for ASP.NET Core.
 
 ## The PDManager DSS architecture
+
+The PDManager DSS sub architecture is depicted in 
+[![N|Solid](https://drive.google.com/uc?id=1FAHlvHBpMgSKnXv438nUTCvULMTQ6T3v)](https://drive.google.com/uc?id=1FAHlvHBpMgSKnXv438nUTCvULMTQ6T3v)
+
 The following figure depicts the UML component diagram of the PDManager DSS
 [![N|Solid](https://drive.google.com/uc?id=1Ewr9rELNT2w6mrA0E-thJDGG4TyF6ZAJ)](https://drive.google.com/uc?id=1Ewr9rELNT2w6mrA0E-thJDGG4TyF6ZAJ)
 
